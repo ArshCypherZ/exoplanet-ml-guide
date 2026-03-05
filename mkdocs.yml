@@ -1,0 +1,49 @@
+site_name: Exoplanet Detection with ML
+site_description: Learning guide for exoplanet detection using machine learning on TESS data
+site_url: https://arshcypherz.github.io/learning/
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - 1. Astronomy Basics: 01-astronomy-basics.md
+  - 2. The Transit Method: 02-transit-method.md
+  - 3. TESS and Space Missions: 03-tess-and-missions.md
+  - 4. ML for Exoplanets: 04-ml-for-exoplanets.md
+  - 5. Research Landscape: 05-research-landscape.md
+  - 6. Research Directions: 06-research-directions.md
+  - 7. Paper Writing Guide: 07-paper-writing-guide.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
