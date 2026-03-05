@@ -1,0 +1,2004 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Learning guide for exoplanet detection using machine learning on TESS data">
+      
+      
+      
+        <link rel="canonical" href="https://arshcypherz.github.io/learning/01-astronomy-basics/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../02-transit-method/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>1. Astronomy Basics - Exoplanet Detection with ML</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-1-astronomy-basics-from-zero-to-exoplanets" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Exoplanet Detection with ML" class="md-header__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Exoplanet Detection with ML
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Astronomy Basics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Exoplanet Detection with ML" class="md-nav__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Exoplanet Detection with ML
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Astronomy Basics
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Astronomy Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-a-star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What Is a Star?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Is a Star?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-simple-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Simple Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stars-vs-planets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stars vs. Planets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-life-cycle-of-stars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Life Cycle of Stars
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-key-properties-of-stars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Key Properties of Stars
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Key Properties of Stars">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-temperature-t_eff-effective-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Temperature (T_eff -- Effective Temperature)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-radius-r_star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Radius (R_star)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-mass-m_star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Mass (M_star)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-luminosity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Luminosity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-metallicity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Metallicity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-tess-magnitude-t_mag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 TESS Magnitude (T_mag)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-tic-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 TIC ID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-is-an-exoplanet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What Is an Exoplanet?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. What Is an Exoplanet?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brief-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brief History
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-key-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Key Insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-types-of-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Types of Exoplanets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Types of Exoplanets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-hot-jupiters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Hot Jupiters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-super-earths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Super-Earths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-mini-neptunes-sub-neptunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Mini-Neptunes / Sub-Neptunes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-neptune-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Neptune-like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-terrestrial-earth-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Terrestrial / Earth-like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#size-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Size Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-habitable-zone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Habitable Zone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The Habitable Zone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-calculation-simplified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Calculation (simplified)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-how-do-we-find-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. How Do We Find Exoplanets?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. How Do We Find Exoplanets?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-transit-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Transit Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-radial-velocity-doppler-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Radial Velocity (Doppler Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-direct-imaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Direct Imaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-gravitational-microlensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Gravitational Microlensing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-astrometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Astrometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detection-method-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection Method Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-why-does-this-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Why Does This Matter?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Why Does This Matter?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-big-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Big Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ml-matters-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ML Matters Here
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-key-numbers-to-remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Key Numbers to Remember
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-transit-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Transit Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tess-and-missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. TESS and Space Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ml-for-exoplanets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. ML for Exoplanets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-research-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Research Landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-research-directions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Research Directions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-paper-writing-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Paper Writing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-a-star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What Is a Star?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Is a Star?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-simple-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Simple Version
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stars-vs-planets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stars vs. Planets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-life-cycle-of-stars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Life Cycle of Stars
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-key-properties-of-stars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Key Properties of Stars
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Key Properties of Stars">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-temperature-t_eff-effective-temperature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Temperature (T_eff -- Effective Temperature)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-radius-r_star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Radius (R_star)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-mass-m_star" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Mass (M_star)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-luminosity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Luminosity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-metallicity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Metallicity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-tess-magnitude-t_mag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 TESS Magnitude (T_mag)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#37-tic-id" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 TIC ID
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-is-an-exoplanet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What Is an Exoplanet?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. What Is an Exoplanet?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brief-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Brief History
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-key-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Key Insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-types-of-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Types of Exoplanets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Types of Exoplanets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-hot-jupiters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Hot Jupiters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-super-earths" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Super-Earths
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-mini-neptunes-sub-neptunes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Mini-Neptunes / Sub-Neptunes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-neptune-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Neptune-like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-terrestrial-earth-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Terrestrial / Earth-like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#size-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Size Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-habitable-zone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Habitable Zone
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The Habitable Zone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-calculation-simplified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Calculation (simplified)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-how-do-we-find-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. How Do We Find Exoplanets?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. How Do We Find Exoplanets?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-transit-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Transit Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-radial-velocity-doppler-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Radial Velocity (Doppler Method)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-direct-imaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Direct Imaging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-gravitational-microlensing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Gravitational Microlensing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-astrometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Astrometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detection-method-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detection Method Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-why-does-this-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Why Does This Matter?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Why Does This Matter?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-big-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Big Questions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-ml-matters-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ML Matters Here
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-key-numbers-to-remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Key Numbers to Remember
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-1-astronomy-basics-from-zero-to-exoplanets">Part 1: Astronomy Basics -- From Zero to Exoplanets<a class="headerlink" href="#part-1-astronomy-basics-from-zero-to-exoplanets" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Who this is for</strong>: No prior astronomy knowledge assumed. By the end of this doc, you'll understand why finding planets around other stars is one of the most exciting problems in science, and why ML is critical to solving it.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-what-is-a-star">What Is a Star?</a></li>
+<li><a href="#2-the-life-cycle-of-stars">The Life Cycle of Stars</a></li>
+<li><a href="#3-key-properties-of-stars">Key Properties of Stars</a></li>
+<li><a href="#4-what-is-an-exoplanet">What Is an Exoplanet?</a></li>
+<li><a href="#5-types-of-exoplanets">Types of Exoplanets</a></li>
+<li><a href="#6-the-habitable-zone">The Habitable Zone</a></li>
+<li><a href="#7-how-do-we-find-exoplanets">How Do We Find Exoplanets?</a></li>
+<li><a href="#8-why-does-this-matter">Why Does This Matter?</a></li>
+<li><a href="#9-key-numbers-to-remember">Key Numbers to Remember</a></li>
+<li><a href="#10-glossary">Glossary</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-a-star">1. What Is a Star?<a class="headerlink" href="#1-what-is-a-star" title="Permanent link">&para;</a></h2>
+<p>A star is a massive ball of hot gas (mostly hydrogen and helium) held together by its own gravity. At its core, hydrogen atoms fuse into helium through <strong>nuclear fusion</strong>, releasing enormous amounts of energy. This energy is what makes stars shine.</p>
+<h3 id="the-simple-version">The Simple Version<a class="headerlink" href="#the-simple-version" title="Permanent link">&para;</a></h3>
+<p>Think of a star as a controlled nuclear explosion that lasts billions of years. Gravity tries to crush it inward; fusion energy pushes outward. This balance is called <strong>hydrostatic equilibrium</strong>.</p>
+<div class="highlight"><pre><span></span><code>           GRAVITY (inward)
+               |
+               v
+    +-----------------------+
+    |                       |
+    |    FUSION ENERGY      |
+    |    (outward pressure) |
+    |                       |
+    +-----------------------+
+               ^
+               |
+           RADIATION PRESSURE (outward)
+</code></pre></div>
+<p>Our Sun is a star. It's a pretty average one -- not too hot, not too cold, not too big, not too small. Astronomers call it a <strong>G-type main-sequence star</strong> (or G dwarf).</p>
+<h3 id="stars-vs-planets">Stars vs. Planets<a class="headerlink" href="#stars-vs-planets" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Star</th>
+<th>Planet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Energy source</td>
+<td>Nuclear fusion (self-luminous)</td>
+<td>Reflects starlight (mostly)</td>
+</tr>
+<tr>
+<td>Mass</td>
+<td>Massive (at least ~80x Jupiter)</td>
+<td>Much smaller</td>
+</tr>
+<tr>
+<td>Temperature</td>
+<td>Thousands to tens of thousands of Kelvin</td>
+<td>Hundreds to thousands of Kelvin</td>
+</tr>
+<tr>
+<td>Composition</td>
+<td>Mostly hydrogen &amp; helium</td>
+<td>Rocky, gaseous, or icy</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-the-life-cycle-of-stars">2. The Life Cycle of Stars<a class="headerlink" href="#2-the-life-cycle-of-stars" title="Permanent link">&para;</a></h2>
+<p>Stars don't live forever. Their lifecycle depends primarily on their <strong>mass</strong>:</p>
+<div class="highlight"><pre><span></span><code>  Molecular Cloud (gas &amp; dust)
+         |
+         v
+    Protostar (collapsing cloud)
+         |
+         v
+    Main Sequence Star (stable fusion, like our Sun)
+         |
+         v
+    +---------+---------+
+    |                   |
+    v                   v
+  Low/Medium Mass     High Mass
+  (like our Sun)      (8+ solar masses)
+    |                   |
+    v                   v
+  Red Giant           Red Supergiant
+    |                   |
+    v                   v
+  Planetary Nebula    Supernova Explosion
+    |                   |
+    v                   v
+  White Dwarf         Neutron Star or Black Hole
+</code></pre></div>
+<p><strong>Why this matters for exoplanets</strong>: We mostly look for planets around <strong>main sequence stars</strong> -- stable stars in the prime of their lives. These are the stars where planets have had time to form and where conditions might support life.</p>
+<hr />
+<h2 id="3-key-properties-of-stars">3. Key Properties of Stars<a class="headerlink" href="#3-key-properties-of-stars" title="Permanent link">&para;</a></h2>
+<p>When you're doing exoplanet detection, you need to know these stellar properties:</p>
+<h3 id="31-temperature-t_eff-effective-temperature">3.1 Temperature (T_eff -- Effective Temperature)<a class="headerlink" href="#31-temperature-t_eff-effective-temperature" title="Permanent link">&para;</a></h3>
+<p>Measured in <strong>Kelvin (K)</strong>. Our Sun is ~5,778 K.</p>
+<p>Stars are classified by their temperature into <strong>spectral types</strong>:</p>
+<div class="highlight"><pre><span></span><code>  O  ---  B  ---  A  ---  F  ---  G  ---  K  ---  M
+  Hot                                              Cool
+  Blue     Blue-   White   Yellow  Yellow  Orange  Red
+           White                   (Sun)
+
+  &gt;30,000K  10,000K  7,500K  6,000K  5,200K  3,700K  2,400K
+</code></pre></div>
+<p><strong>Mnemonic</strong>: "Oh Be A Fine Guy/Girl, Kiss Me"</p>
+<p><strong>For exoplanets</strong>: We mostly target <strong>F, G, K, and M</strong> stars:
+- G stars (like the Sun): Good baseline for Earth-like planet searches
+- K stars: Slightly cooler, very stable, excellent targets
+- M stars (red dwarfs): Most common stars in the galaxy (~70%), small and dim, so planet transits are deeper and easier to detect. But they flare a lot, which creates noise.</p>
+<h3 id="32-radius-r_star">3.2 Radius (R_star)<a class="headerlink" href="#32-radius-r_star" title="Permanent link">&para;</a></h3>
+<p>Measured in <strong>solar radii (R_sun)</strong>, where R_sun = 696,340 km.</p>
+<p>This is CRITICAL for transit detection because the transit depth depends on the ratio (R_planet / R_star)^2. A planet transiting a smaller star creates a deeper dip.</p>
+<p><strong>Example</strong>:
+- Earth transiting the Sun: depth = (R_earth / R_sun)^2 = (6,371 / 696,340)^2 = <strong>0.0084%</strong> (incredibly tiny!)
+- Earth transiting an M dwarf (0.3 R_sun): depth = (6,371 / 208,902)^2 = <strong>0.093%</strong> (~11x deeper, much easier to detect)</p>
+<h3 id="33-mass-m_star">3.3 Mass (M_star)<a class="headerlink" href="#33-mass-m_star" title="Permanent link">&para;</a></h3>
+<p>Measured in <strong>solar masses (M_sun)</strong>, where M_sun = 1.989 x 10^30 kg.</p>
+<p>Mass determines:
+- How long the star lives (more massive = shorter life)
+- The orbital dynamics of planets around it (Kepler's third law)
+- The habitable zone distance</p>
+<h3 id="34-luminosity">3.4 Luminosity<a class="headerlink" href="#34-luminosity" title="Permanent link">&para;</a></h3>
+<p>How much total energy a star emits per second. Measured in <strong>solar luminosities (L_sun)</strong>.</p>
+<p>Determines the habitable zone distance: more luminous star = habitable zone further out.</p>
+<h3 id="35-metallicity">3.5 Metallicity<a class="headerlink" href="#35-metallicity" title="Permanent link">&para;</a></h3>
+<p>In astronomy, anything heavier than helium is a "metal" (yes, even carbon and oxygen). <strong>Metallicity</strong> measures the abundance of these heavy elements.</p>
+<p><strong>For exoplanets</strong>: Higher metallicity stars are more likely to host giant planets. These heavy elements are the building blocks of rocky planets and giant planet cores.</p>
+<h3 id="36-tess-magnitude-t_mag">3.6 TESS Magnitude (T_mag)<a class="headerlink" href="#36-tess-magnitude-t_mag" title="Permanent link">&para;</a></h3>
+<p>A measure of how bright the star appears to TESS specifically. Lower numbers = brighter. TESS targets stars with T_mag &lt; 12 (bright, nearby stars).</p>
+<h3 id="37-tic-id">3.7 TIC ID<a class="headerlink" href="#37-tic-id" title="Permanent link">&para;</a></h3>
+<p>Every star observed by TESS has a unique identifier in the <strong>TESS Input Catalog (TIC)</strong>. This is like a social security number for stars. Example: TIC 150428135 is the star TOI-700, which hosts confirmed planets.</p>
+<hr />
+<h2 id="4-what-is-an-exoplanet">4. What Is an Exoplanet?<a class="headerlink" href="#4-what-is-an-exoplanet" title="Permanent link">&para;</a></h2>
+<p>An <strong>exoplanet</strong> (or extrasolar planet) is any planet that orbits a star other than our Sun. That's it. Simple definition, but finding them is incredibly hard.</p>
+<h3 id="brief-history">Brief History<a class="headerlink" href="#brief-history" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>1992</strong>: First confirmed exoplanet found -- around a pulsar (dead star), not a normal star</li>
+<li><strong>1995</strong>: First exoplanet around a Sun-like star -- <strong>51 Pegasi b</strong> (a hot Jupiter). Won the 2019 Nobel Prize.</li>
+<li><strong>2009</strong>: NASA's Kepler mission launches -- the exoplanet revolution begins</li>
+<li><strong>2018</strong>: TESS launches -- the survey of nearby bright stars begins</li>
+<li><strong>2025</strong>: We've confirmed <strong>5,800+ exoplanets</strong>, with thousands more candidates waiting</li>
+</ul>
+<h3 id="the-key-insight">The Key Insight<a class="headerlink" href="#the-key-insight" title="Permanent link">&para;</a></h3>
+<p>For most of human history, we didn't know if planets existed around other stars. Now we know that <strong>planets are incredibly common</strong> -- on average, every star in our galaxy has at least one planet. That's ~100-400 billion planets in the Milky Way alone.</p>
+<hr />
+<h2 id="5-types-of-exoplanets">5. Types of Exoplanets<a class="headerlink" href="#5-types-of-exoplanets" title="Permanent link">&para;</a></h2>
+<p>Exoplanets come in wild varieties, many with no analog in our solar system:</p>
+<h3 id="51-hot-jupiters">5.1 Hot Jupiters<a class="headerlink" href="#51-hot-jupiters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Size</strong>: Jupiter-sized (radius ~1 R_Jupiter = ~11 R_Earth)</li>
+<li><strong>Orbit</strong>: Extremely close to their star (orbital period: 1-10 days)</li>
+<li><strong>Temperature</strong>: 1,000-3,000 K (scorching hot)</li>
+<li><strong>Example</strong>: WASP-18b (TIC 100100827) -- 1.16 R_Jupiter, orbital period 0.94 days</li>
+<li><strong>Why they matter</strong>: Easiest to detect (big planet + short period = frequent, deep transits). But they're actually rare (~1% of stars have them).</li>
+</ul>
+<h3 id="52-super-earths">5.2 Super-Earths<a class="headerlink" href="#52-super-earths" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Size</strong>: 1.2-2.0 R_Earth</li>
+<li><strong>Mass</strong>: 2-10 Earth masses</li>
+<li><strong>No solar system analog</strong> -- we don't have anything between Earth and Neptune</li>
+<li><strong>Example</strong>: Pi Mensae c (TIC 261136679) -- 2.04 R_Earth, 6.27 day period</li>
+<li><strong>Why they matter</strong>: Most common type of planet in the galaxy. Key targets for habitability studies.</li>
+</ul>
+<h3 id="53-mini-neptunes-sub-neptunes">5.3 Mini-Neptunes / Sub-Neptunes<a class="headerlink" href="#53-mini-neptunes-sub-neptunes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Size</strong>: 2.0-4.0 R_Earth</li>
+<li><strong>Likely have thick hydrogen/helium atmospheres</strong> over a rocky/icy core</li>
+<li><strong>The "radius gap"</strong>: There's a mysterious gap in the planet size distribution between 1.5-2.0 R_Earth. Planets are either super-Earths or mini-Neptunes, rarely in between. Understanding this gap is an active research area.</li>
+</ul>
+<h3 id="54-neptune-like">5.4 Neptune-like<a class="headerlink" href="#54-neptune-like" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Size</strong>: ~4 R_Earth</li>
+<li><strong>Similar to our Neptune/Uranus</strong></li>
+<li><strong>"Hot Neptunes" are rare</strong> -- this is called the "hot Neptune desert." We don't fully understand why.</li>
+</ul>
+<h3 id="55-terrestrial-earth-like">5.5 Terrestrial / Earth-like<a class="headerlink" href="#55-terrestrial-earth-like" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Size</strong>: 0.5-1.2 R_Earth</li>
+<li><strong>Rocky composition</strong></li>
+<li><strong>Example</strong>: TOI-700 d (TIC 150428135) -- 1.07 R_Earth, in the habitable zone!</li>
+<li><strong>Why they matter</strong>: The ultimate goal -- finding another Earth.</li>
+</ul>
+<h3 id="size-comparison">Size Comparison<a class="headerlink" href="#size-comparison" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  Earth     Super-Earth    Mini-Neptune    Neptune      Jupiter
+   .          ..             ...           ....        .........
+  1 R_E      1.5 R_E        3 R_E         4 R_E       11 R_E
+</code></pre></div>
+<hr />
+<h2 id="6-the-habitable-zone">6. The Habitable Zone<a class="headerlink" href="#6-the-habitable-zone" title="Permanent link">&para;</a></h2>
+<p>The <strong>habitable zone</strong> (HZ), also called the "Goldilocks zone," is the range of orbital distances from a star where liquid water could exist on a planet's surface.</p>
+<div class="highlight"><pre><span></span><code>                    STAR
+                     *
+                     |
+    Too Hot    |  Habitable  |  Too Cold
+    (Venus)    |    Zone     |  (Mars)
+               |  (Earth)   |
+    &lt;----------|------------|------------&gt;
+               Inner edge   Outer edge
+</code></pre></div>
+<h3 id="key-points">Key Points<a class="headerlink" href="#key-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The HZ depends on the <strong>star's luminosity and temperature</strong></li>
+<li>For a Sun-like star: roughly 0.95-1.67 AU (1 AU = Earth-Sun distance)</li>
+<li>For an M dwarf (cooler, dimmer): HZ is much closer, maybe 0.1-0.4 AU</li>
+<li>Being in the HZ doesn't guarantee habitability -- atmosphere, magnetic field, and other factors matter</li>
+<li>Can calculate this using the <strong>Kopparapu et al. (2013)</strong> model</li>
+</ul>
+<h3 id="the-calculation-simplified">The Calculation (simplified)<a class="headerlink" href="#the-calculation-simplified" title="Permanent link">&para;</a></h3>
+<p>The inner and outer edges depend on the star's effective temperature:</p>
+<div class="highlight"><pre><span></span><code>Inner edge: a_inner = sqrt(L_star / S_inner)    [in AU]
+Outer edge: a_outer = sqrt(L_star / S_outer)    [in AU]
+</code></pre></div>
+<p>Where S_inner and S_outer are the stellar flux limits (derived from climate models), and L_star is the luminosity in solar luminosities.</p>
+<hr />
+<h2 id="7-how-do-we-find-exoplanets">7. How Do We Find Exoplanets?<a class="headerlink" href="#7-how-do-we-find-exoplanets" title="Permanent link">&para;</a></h2>
+<p>There are several detection methods. Each has strengths and biases:</p>
+<h3 id="71-transit-method">7.1 Transit Method<a class="headerlink" href="#71-transit-method" title="Permanent link">&para;</a></h3>
+<p>When a planet passes in front of its star (from our viewpoint), it blocks a tiny fraction of the star's light. We measure this brightness dip.</p>
+<p><strong>We'll cover this in depth in Part 2.</strong> This is the most productive method -- responsible for ~75% of all confirmed exoplanets.</p>
+<h3 id="72-radial-velocity-doppler-method">7.2 Radial Velocity (Doppler Method)<a class="headerlink" href="#72-radial-velocity-doppler-method" title="Permanent link">&para;</a></h3>
+<p>A planet's gravity tugs on its star, causing the star to "wobble." This wobble shifts the star's light slightly toward blue (approaching) or red (receding). We measure this Doppler shift.</p>
+<div class="highlight"><pre><span></span><code>  Planet pulls star toward us     Planet pulls star away
+  (star light blueshifted)        (star light redshifted)
+         &lt;---                           ---&gt;
+    Star . . . *                   * . . . Star
+                 Planet               Planet
+</code></pre></div>
+<p><strong>Measures</strong>: Planet's <strong>minimum mass</strong> (m * sin(i), where i is orbital inclination)
+<strong>Complementary to transits</strong>: Transits give radius, RV gives mass. Together you get <strong>density</strong> and can infer composition.</p>
+<h3 id="73-direct-imaging">7.3 Direct Imaging<a class="headerlink" href="#73-direct-imaging" title="Permanent link">&para;</a></h3>
+<p>Actually taking a picture of the planet. Extremely hard because stars are ~10 billion times brighter than their planets. Requires a <strong>coronagraph</strong> (to block the star's light) and advanced image processing.</p>
+<p><strong>Best for</strong>: Young, massive planets far from their stars (they glow in infrared from formation heat).</p>
+<h3 id="74-gravitational-microlensing">7.4 Gravitational Microlensing<a class="headerlink" href="#74-gravitational-microlensing" title="Permanent link">&para;</a></h3>
+<p>When a foreground star with planets passes in front of a background star, its gravity bends the background star's light (Einstein's general relativity). The planet causes an extra blip in the magnification.</p>
+<p><strong>Unique advantage</strong>: Can find planets at any orbital distance, even rogue planets (no host star).
+<strong>Disadvantage</strong>: One-time events -- can't follow up or confirm easily.</p>
+<h3 id="75-astrometry">7.5 Astrometry<a class="headerlink" href="#75-astrometry" title="Permanent link">&para;</a></h3>
+<p>Precisely measuring a star's position over time. A planet's gravity makes the star trace a tiny ellipse in the sky.</p>
+<p><strong>Gaia mission</strong>: Currently measuring positions of ~2 billion stars. Expected to find thousands of planets via astrometry.</p>
+<h3 id="detection-method-comparison">Detection Method Comparison<a class="headerlink" href="#detection-method-comparison" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it measures</th>
+<th>Best for</th>
+<th>Confirmed planets</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transit</td>
+<td>Planet radius</td>
+<td>Close-in planets</td>
+<td>~4,200+</td>
+</tr>
+<tr>
+<td>Radial Velocity</td>
+<td>Planet mass</td>
+<td>Nearby bright stars</td>
+<td>~1,100+</td>
+</tr>
+<tr>
+<td>Direct Imaging</td>
+<td>Light from planet</td>
+<td>Young, massive, far-out planets</td>
+<td>~70+</td>
+</tr>
+<tr>
+<td>Microlensing</td>
+<td>Mass ratio</td>
+<td>Distant planets, rogues</td>
+<td>~200+</td>
+</tr>
+<tr>
+<td>Astrometry</td>
+<td>Star wobble in sky</td>
+<td>Long-period planets</td>
+<td>~30+</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="8-why-does-this-matter">8. Why Does This Matter?<a class="headerlink" href="#8-why-does-this-matter" title="Permanent link">&para;</a></h2>
+<h3 id="the-big-questions">The Big Questions<a class="headerlink" href="#the-big-questions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Are we alone?</strong> Finding Earth-like planets in habitable zones is the first step toward answering this.</li>
+<li><strong>How do planetary systems form?</strong> The diversity of exoplanets (hot Jupiters, super-Earths, etc.) challenges our theories of planet formation.</li>
+<li><strong>How common are Earth-like planets?</strong> The answer (called <strong>eta-Earth</strong>) has enormous implications. Current estimates: 10-50% of Sun-like stars may have an Earth-sized planet in their HZ.</li>
+<li><strong>Atmospheric characterization</strong>: With JWST, we can now study exoplanet atmospheres. Finding <strong>biosignatures</strong> (oxygen, methane, water vapor) would be groundbreaking.</li>
+</ol>
+<h3 id="why-ml-matters-here">Why ML Matters Here<a class="headerlink" href="#why-ml-matters-here" title="Permanent link">&para;</a></h3>
+<ul>
+<li>TESS will observe <strong>~200 million stars</strong> over its mission</li>
+<li>Each star produces a time series (light curve) with thousands of data points</li>
+<li>Humans can't manually inspect 200 million light curves</li>
+<li>Traditional algorithms (BLS) find candidates, but produce many false positives</li>
+<li>ML can learn the subtle differences between real planets and imposters (eclipsing binaries, instrumental artifacts, stellar variability)</li>
+</ul>
+<hr />
+<h2 id="9-key-numbers-to-remember">9. Key Numbers to Remember<a class="headerlink" href="#9-key-numbers-to-remember" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confirmed exoplanets</td>
+<td>~5,800+ (2025)</td>
+<td>The field is growing fast</td>
+</tr>
+<tr>
+<td>Estimated planets in Milky Way</td>
+<td>100-400 billion</td>
+<td>Planets are everywhere</td>
+</tr>
+<tr>
+<td>Sun's temperature</td>
+<td>5,778 K</td>
+<td>Reference point for stellar types</td>
+</tr>
+<tr>
+<td>Sun's radius</td>
+<td>696,340 km</td>
+<td>Used to normalize planet sizes</td>
+</tr>
+<tr>
+<td>Earth's radius</td>
+<td>6,371 km</td>
+<td>our detection target</td>
+</tr>
+<tr>
+<td>Jupiter's radius</td>
+<td>69,911 km (~11 R_Earth)</td>
+<td>Hot Jupiter reference</td>
+</tr>
+<tr>
+<td>1 AU</td>
+<td>149.6 million km</td>
+<td>Earth-Sun distance</td>
+</tr>
+<tr>
+<td>Transit depth (Earth-Sun)</td>
+<td>0.0084%</td>
+<td>Shows how hard detection is</td>
+</tr>
+<tr>
+<td>Transit depth (Hot Jupiter-Sun)</td>
+<td>~1%</td>
+<td>Shows why these are found first</td>
+</tr>
+<tr>
+<td>TESS sector observation</td>
+<td>~27 days</td>
+<td>Limits detectable orbital periods</td>
+</tr>
+<tr>
+<td>Kepler mission duration</td>
+<td>~4 years</td>
+<td>Much longer baseline than TESS</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-glossary">10. Glossary<a class="headerlink" href="#10-glossary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AU (Astronomical Unit)</strong></td>
+<td>The average Earth-Sun distance: 149.6 million km</td>
+</tr>
+<tr>
+<td><strong>Effective Temperature (T_eff)</strong></td>
+<td>The surface temperature of a star, in Kelvin</td>
+</tr>
+<tr>
+<td><strong>Exoplanet</strong></td>
+<td>A planet orbiting a star other than our Sun</td>
+</tr>
+<tr>
+<td><strong>Habitable Zone (HZ)</strong></td>
+<td>The orbital region where liquid water could exist on a planet surface</td>
+</tr>
+<tr>
+<td><strong>Light curve</strong></td>
+<td>A graph of a star's brightness over time</td>
+</tr>
+<tr>
+<td><strong>Main sequence</strong></td>
+<td>The stable phase of a star's life where it fuses hydrogen</td>
+</tr>
+<tr>
+<td><strong>Metallicity</strong></td>
+<td>Abundance of elements heavier than helium in a star</td>
+</tr>
+<tr>
+<td><strong>R_Earth (R_E)</strong></td>
+<td>Earth's radius, used as a unit for planet sizes</td>
+</tr>
+<tr>
+<td><strong>R_Jupiter (R_J)</strong></td>
+<td>Jupiter's radius, ~11 R_Earth</td>
+</tr>
+<tr>
+<td><strong>R_Sun (R_solar)</strong></td>
+<td>The Sun's radius, used as a unit for star sizes</td>
+</tr>
+<tr>
+<td><strong>Solar luminosity (L_sun)</strong></td>
+<td>The Sun's total energy output per second</td>
+</tr>
+<tr>
+<td><strong>Solar mass (M_sun)</strong></td>
+<td>The Sun's mass: 1.989 x 10^30 kg</td>
+</tr>
+<tr>
+<td><strong>Spectral type</strong></td>
+<td>Classification of stars by temperature (O, B, A, F, G, K, M)</td>
+</tr>
+<tr>
+<td><strong>TIC</strong></td>
+<td>TESS Input Catalog -- the master list of TESS target stars</td>
+</tr>
+<tr>
+<td><strong>TIC ID</strong></td>
+<td>Unique identifier for a star in the TIC</td>
+</tr>
+<tr>
+<td><strong>TOI</strong></td>
+<td>TESS Object of Interest -- a candidate planet signal</td>
+</tr>
+<tr>
+<td><strong>Transit</strong></td>
+<td>When a planet passes in front of its star, blocking some light</td>
+</tr>
+<tr>
+<td><strong>Transit depth</strong></td>
+<td>The fractional decrease in starlight during a transit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<p>Now that we understand the basics of stars, planets, and detection methods, <strong>Part 2</strong> dives deep into the transit method. We'll learn the math behind light curves, how to read them, and what makes a signal look like a real planet vs. a false positive.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

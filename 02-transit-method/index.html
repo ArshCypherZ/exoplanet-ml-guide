@@ -1,0 +1,2103 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Learning guide for exoplanet detection using machine learning on TESS data">
+      
+      
+      
+        <link rel="canonical" href="https://arshcypherz.github.io/learning/02-transit-method/">
+      
+      
+        <link rel="prev" href="../01-astronomy-basics/">
+      
+      
+        <link rel="next" href="../03-tess-and-missions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>2. The Transit Method - Exoplanet Detection with ML</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-2-the-transit-method-how-we-detect-planets-by-watching-stars-dim" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Exoplanet Detection with ML" class="md-header__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Exoplanet Detection with ML
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2. The Transit Method
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Exoplanet Detection with ML" class="md-nav__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Exoplanet Detection with ML
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-astronomy-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Astronomy Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Transit Method
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Transit Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-anatomy-of-a-transit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Anatomy of a Transit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Anatomy of a Transit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-contact-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Four Contact Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-transit-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Transit Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-light-curves-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Light Curves Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Light Curves Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raw-light-curve-noisy-full-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw Light Curve (noisy, full time series)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-you-see" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You See
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-of-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of Noise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-preprocessing-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Preprocessing Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-math-behind-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The Math Behind Transits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The Math Behind Transits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transit-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transit Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Calculations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keplers-third-law-orbital-period-to-distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kepler's Third Law (Orbital Period to Distance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geometric-transit-probability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometric Transit Probability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-phase-folding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Phase Folding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Phase Folding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-solution-phase-folding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: Phase Folding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-box-least-squares-bls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Box Least Squares (BLS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Box Least Squares (BLS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-bls-works-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How BLS Works (Step by Step)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-false-positives-the-imposters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. False Positives -- The Imposters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. False Positives -- The Imposters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-eclipsing-binaries-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Eclipsing Binaries (EBs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-background-eclipsing-binaries-bebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Background Eclipsing Binaries (BEBs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-stellar-variability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Stellar Variability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-instrumental-systematics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Instrumental Systematics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#false-positive-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        False Positive Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-u-shape-vs-v-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. U-Shape vs V-Shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. U-Shape vs V-Shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#u-shape-planet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        U-Shape (Planet!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v-shape-probably-an-eclipsing-binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V-Shape (Probably an Eclipsing Binary!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grazing-transit-ambiguous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grazing Transit (Ambiguous)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-signal-to-noise-ratio-snr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Signal-to-Noise Ratio (SNR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Signal-to-Noise Ratio (SNR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-snr-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic SNR Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-snr-values-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What SNR Values Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-increase-snr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Increase SNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limb-darkening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limb Darkening
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Limb Darkening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tess-and-missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. TESS and Space Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ml-for-exoplanets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. ML for Exoplanets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-research-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Research Landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-research-directions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Research Directions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-paper-writing-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Paper Writing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-core-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Core Idea
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-anatomy-of-a-transit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Anatomy of a Transit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Anatomy of a Transit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-four-contact-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Four Contact Points
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-transit-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Transit Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-light-curves-explained" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Light Curves Explained
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Light Curves Explained">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#raw-light-curve-noisy-full-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw Light Curve (noisy, full time series)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-you-see" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What You See
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#types-of-noise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Types of Noise
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-preprocessing-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Preprocessing Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-math-behind-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The Math Behind Transits
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The Math Behind Transits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#transit-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transit Depth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Calculations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keplers-third-law-orbital-period-to-distance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kepler's Third Law (Orbital Period to Distance)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geometric-transit-probability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Geometric Transit Probability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-phase-folding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Phase Folding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Phase Folding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-solution-phase-folding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Solution: Phase Folding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-box-least-squares-bls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Box Least Squares (BLS)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Box Least Squares (BLS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-idea" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Idea
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-bls-works-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How BLS Works (Step by Step)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-false-positives-the-imposters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. False Positives -- The Imposters
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. False Positives -- The Imposters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-eclipsing-binaries-ebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Eclipsing Binaries (EBs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-background-eclipsing-binaries-bebs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Background Eclipsing Binaries (BEBs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-stellar-variability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Stellar Variability
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-instrumental-systematics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Instrumental Systematics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#false-positive-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        False Positive Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-u-shape-vs-v-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. U-Shape vs V-Shape
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. U-Shape vs V-Shape">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#u-shape-planet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        U-Shape (Planet!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v-shape-probably-an-eclipsing-binary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        V-Shape (Probably an Eclipsing Binary!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grazing-transit-ambiguous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grazing Transit (Ambiguous)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-signal-to-noise-ratio-snr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Signal-to-Noise Ratio (SNR)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Signal-to-Noise Ratio (SNR)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-snr-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic SNR Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-snr-values-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What SNR Values Mean
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-increase-snr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Increase SNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-limb-darkening" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Limb Darkening
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Limb Darkening">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-glossary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Glossary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-2-the-transit-method-how-we-detect-planets-by-watching-stars-dim">Part 2: The Transit Method -- How We Detect Planets by Watching Stars Dim<a class="headerlink" href="#part-2-the-transit-method-how-we-detect-planets-by-watching-stars-dim" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Prerequisites</strong>: You've read <a href="../01-astronomy-basics/">Part 1: Astronomy Basics</a>.<br />
+<strong>What you'll learn</strong>: The complete physics behind transit detection, how light curves work, what BLS does, and how to tell real planets from imposters.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-the-core-idea">The Core Idea</a></li>
+<li><a href="#2-anatomy-of-a-transit">Anatomy of a Transit</a></li>
+<li><a href="#3-light-curves-explained">Light Curves Explained</a></li>
+<li><a href="#4-the-math-behind-transits">The Math Behind Transits</a></li>
+<li><a href="#5-phase-folding">Phase Folding</a></li>
+<li><a href="#6-box-least-squares-bls">Box Least Squares (BLS)</a></li>
+<li><a href="#7-false-positives----the-imposters">False Positives -- The Imposters</a></li>
+<li><a href="#8-u-shape-vs-v-shape">U-Shape vs V-Shape</a></li>
+<li><a href="#9-signal-to-noise-ratio-snr">Signal-to-Noise Ratio (SNR)</a></li>
+<li><a href="#10-limb-darkening">Limb Darkening</a></li>
+<li><a href="#11-glossary">Glossary</a></li>
+</ol>
+<hr />
+<h2 id="1-the-core-idea">1. The Core Idea<a class="headerlink" href="#1-the-core-idea" title="Permanent link">&para;</a></h2>
+<p>Imagine you're staring at a lightbulb. Now imagine an ant walks across the face of the lightbulb. You'd see a <strong>tiny, brief dimming</strong> as the ant blocks some of the light. That's essentially what a transit is -- except the "lightbulb" is a star, and the "ant" is a planet.</p>
+<div class="highlight"><pre><span></span><code>BEFORE TRANSIT          DURING TRANSIT         AFTER TRANSIT
+
+   * * *                  * * *                  * * *
+  * * * * *             * * . * *              * * * * *
+ * * * * * *           * * .O. * *            * * * * * *
+  * * * * *             * * . * *              * * * * *
+   * * *                  * * *                  * * *
+
+  (Full brightness)    (Planet blocks       (Full brightness
+                        some light)          restored)
+</code></pre></div>
+<p>The key insight: <strong>we don't see the planet directly. We infer its existence from the periodic dimming it causes.</strong></p>
+<hr />
+<h2 id="2-anatomy-of-a-transit">2. Anatomy of a Transit<a class="headerlink" href="#2-anatomy-of-a-transit" title="Permanent link">&para;</a></h2>
+<p>A transit event has distinct phases:</p>
+<div class="highlight"><pre><span></span><code>Flux
+(brightness)
+  1.00 ─────────┐                              ┌─────────
+                 │  Ingress                     │ Egress
+                 │    ↓                         │   ↓
+  0.99 ─         └────┐                    ┌───┘
+                       │                    │
+  0.98 ─               └────────────────────┘
+                        ↑                  ↑
+                     Contact 2          Contact 3
+                ↑                                ↑
+             Contact 1                        Contact 4
+                │←─────── Transit Duration ────────→│
+                       │←── Flat Bottom ──→│
+
+                ──────────── Time ────────────────────→
+</code></pre></div>
+<h3 id="the-four-contact-points">The Four Contact Points<a class="headerlink" href="#the-four-contact-points" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Contact</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1st Contact</strong> (T1)</td>
+<td>Planet's leading edge touches the stellar disk. Dimming begins.</td>
+</tr>
+<tr>
+<td><strong>2nd Contact</strong> (T2)</td>
+<td>Planet is fully on the stellar disk. Maximum dimming begins.</td>
+</tr>
+<tr>
+<td><strong>3rd Contact</strong> (T3)</td>
+<td>Planet's trailing edge starts to leave. Maximum dimming ends.</td>
+</tr>
+<tr>
+<td><strong>4th Contact</strong> (T4)</td>
+<td>Planet has fully left. Brightness restored.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-transit-parameters">Key Transit Parameters<a class="headerlink" href="#key-transit-parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Symbol</th>
+<th>What it tells you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Transit depth</strong></td>
+<td>delta</td>
+<td>Planet radius (relative to star)</td>
+</tr>
+<tr>
+<td><strong>Transit duration</strong></td>
+<td>T_dur</td>
+<td>Orbital velocity, impact parameter</td>
+</tr>
+<tr>
+<td><strong>Ingress/Egress time</strong></td>
+<td>tau</td>
+<td>Planet size, orbital inclination</td>
+</tr>
+<tr>
+<td><strong>Period</strong></td>
+<td>P</td>
+<td>Orbital period (time between transits)</td>
+</tr>
+<tr>
+<td><strong>Epoch</strong></td>
+<td>T0</td>
+<td>Time of the first transit midpoint</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-light-curves-explained">3. Light Curves Explained<a class="headerlink" href="#3-light-curves-explained" title="Permanent link">&para;</a></h2>
+<p>A <strong>light curve</strong> is simply a graph of a star's brightness (flux) over time. Here's what a real light curve looks like:</p>
+<h3 id="raw-light-curve-noisy-full-time-series">Raw Light Curve (noisy, full time series)<a class="headerlink" href="#raw-light-curve-noisy-full-time-series" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Flux
+1.02 ─  .  .     . .   .      .  .     .      .
+1.01 ─ . .. .  .. .  . . .. .. .. .  .. . . .. .
+1.00 ─.......  ..... .. .......  .... ...........
+0.99 ─ . ..  .. . .   .  . ..  .  .  . .  .  .
+0.98 ─       V         V         V         V
+0.97 ─     (dip 1)  (dip 2)   (dip 3)  (dip 4)
+     └──────────────────────────────────────────→ Time (days)
+       0     5     10    15    20    25    30
+</code></pre></div>
+<h3 id="what-you-see">What You See<a class="headerlink" href="#what-you-see" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Baseline</strong>: The normal brightness of the star (~1.0 after normalization)</li>
+<li><strong>Noise</strong>: Random scatter around the baseline (from photon noise, stellar variability, instrument effects)</li>
+<li><strong>Transit dips</strong>: Periodic drops in brightness (the V-shapes at regular intervals)</li>
+<li><strong>Other features</strong>: Stellar flares (sudden brightness spikes), stellar rotation (slow sinusoidal variation), instrumental systematics</li>
+</ul>
+<h3 id="types-of-noise">Types of Noise<a class="headerlink" href="#types-of-noise" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Noise Source</th>
+<th>Looks Like</th>
+<th>Effect on Detection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Photon noise</strong></td>
+<td>Random scatter (white noise)</td>
+<td>Limits detection of shallow transits</td>
+</tr>
+<tr>
+<td><strong>Stellar variability</strong></td>
+<td>Slow waves (rotation spots)</td>
+<td>Can mimic or hide transit signals</td>
+</tr>
+<tr>
+<td><strong>Stellar flares</strong></td>
+<td>Sharp upward spikes</td>
+<td>Can confuse period-finding algorithms</td>
+</tr>
+<tr>
+<td><strong>Instrumental systematics</strong></td>
+<td>Correlated trends, jumps</td>
+<td>Must be removed (detrending)</td>
+</tr>
+<tr>
+<td><strong>Cosmic rays</strong></td>
+<td>Single-point outliers</td>
+<td>Usually removed by sigma-clipping</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-preprocessing-matters">Why Preprocessing Matters<a class="headerlink" href="#why-preprocessing-matters" title="Permanent link">&para;</a></h3>
+<p>Raw TESS data is messy. Before we can find planets, we need to:
+1. <strong>Remove outliers</strong> (cosmic rays, flares)
+2. <strong>Detrend</strong> (remove stellar variability and instrumental systematics)
+3. <strong>Normalize</strong> (center the flux at 1.0 so we can compare different stars)
+4. <strong>Stitch</strong> (combine data from multiple TESS sectors)</p>
+<hr />
+<h2 id="4-the-math-behind-transits">4. The Math Behind Transits<a class="headerlink" href="#4-the-math-behind-transits" title="Permanent link">&para;</a></h2>
+<h3 id="transit-depth">Transit Depth<a class="headerlink" href="#transit-depth" title="Permanent link">&para;</a></h3>
+<p>The most fundamental equation in transit photometry:</p>
+<div class="highlight"><pre><span></span><code>                    (R_planet)^2
+    delta  =  ─────────────────────
+                    (R_star)^2
+</code></pre></div>
+<p>Where:
+- <code>delta</code> = transit depth (fractional decrease in flux)
+- <code>R_planet</code> = planet radius
+- <code>R_star</code> = star radius</p>
+<p><strong>Rearranging to find planet radius</strong>:</p>
+<div class="highlight"><pre><span></span><code>    R_planet  =  R_star * sqrt(delta)
+</code></pre></div>
+<h3 id="example-calculations">Example Calculations<a class="headerlink" href="#example-calculations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>R_planet</th>
+<th>R_star</th>
+<th>Depth</th>
+<th>Detectable?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hot Jupiter around Sun</td>
+<td>11 R_E</td>
+<td>1 R_sun</td>
+<td>1.0%</td>
+<td>Easy</td>
+</tr>
+<tr>
+<td>Super-Earth around Sun</td>
+<td>2 R_E</td>
+<td>1 R_sun</td>
+<td>0.033%</td>
+<td>Hard</td>
+</tr>
+<tr>
+<td>Earth around Sun</td>
+<td>1 R_E</td>
+<td>1 R_sun</td>
+<td>0.0084%</td>
+<td>Very hard</td>
+</tr>
+<tr>
+<td>Earth around M dwarf</td>
+<td>1 R_E</td>
+<td>0.3 R_sun</td>
+<td>0.093%</td>
+<td>Moderate</td>
+</tr>
+</tbody>
+</table>
+<p>TESS can reliably detect transits with depths &gt; ~200 ppm (0.02%) for bright stars.</p>
+<h3 id="keplers-third-law-orbital-period-to-distance">Kepler's Third Law (Orbital Period to Distance)<a class="headerlink" href="#keplers-third-law-orbital-period-to-distance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>    a^3  =  (P^2 * M_star)
+</code></pre></div>
+<p>Where:
+- <code>a</code> = semi-major axis in AU
+- <code>P</code> = orbital period in years
+- <code>M_star</code> = stellar mass in solar masses</p>
+<h3 id="geometric-transit-probability">Geometric Transit Probability<a class="headerlink" href="#geometric-transit-probability" title="Permanent link">&para;</a></h3>
+<p>Not every planet transits from our perspective. The probability is:</p>
+<div class="highlight"><pre><span></span><code>    P_transit  =  R_star / a
+</code></pre></div>
+<p>For Earth around the Sun: P = R_sun / 1 AU = 0.47% (only 1 in 210 randomly oriented solar systems would show Earth's transit).</p>
+<p><strong>This is why we need to observe millions of stars</strong> -- most planets don't transit.</p>
+<hr />
+<h2 id="5-phase-folding">5. Phase Folding<a class="headerlink" href="#5-phase-folding" title="Permanent link">&para;</a></h2>
+<p>Phase folding is one of the most important techniques in transit detection. Here's why:</p>
+<h3 id="the-problem">The Problem<a class="headerlink" href="#the-problem" title="Permanent link">&para;</a></h3>
+<p>A single transit is weak and buried in noise. But if the planet orbits every P days, it transits repeatedly. Can we combine all the transits to boost the signal?</p>
+<h3 id="the-solution-phase-folding">The Solution: Phase Folding<a class="headerlink" href="#the-solution-phase-folding" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Know the period</strong> (P) and the time of first transit (T0)</li>
+<li><strong>Calculate the phase</strong> of each data point: <code>phase = ((time - T0) % P) / P</code></li>
+<li><strong>Plot all data points against phase</strong> (instead of time)</li>
+</ol>
+<p>This stacks all transits on top of each other:</p>
+<div class="highlight"><pre><span></span><code>BEFORE FOLDING (vs time):
+1.00 ─........  ..... .. .......  .... ...........
+0.98 ─       V         V         V         V
+     └──────────────────────────────────────────→ Time
+       0     5     10    15    20    25    30
+
+AFTER FOLDING (vs phase):
+1.00 ─ :::::::::::::::............:::::::::::::::
+0.99 ─ ::::::::::::::::..........::::::::::::::::
+0.98 ─ ::::::::::::::::::.....::::::::::::::::::
+0.97 ─ :::::::::::::::::::VVV:::::::::::::::::::
+     └──────────────────────────────────────────→ Phase
+      -0.5              0.0              +0.5
+                    (transit center)
+</code></pre></div>
+<p>The noise averages down (by sqrt(N_transits)), but the transit signal stays. This is how we detect planets with tiny transit depths.</p>
+<hr />
+<h2 id="6-box-least-squares-bls">6. Box Least Squares (BLS)<a class="headerlink" href="#6-box-least-squares-bls" title="Permanent link">&para;</a></h2>
+<p>BLS is the standard algorithm for finding periodic transit-like signals in light curves.</p>
+<h3 id="the-idea">The Idea<a class="headerlink" href="#the-idea" title="Permanent link">&para;</a></h3>
+<p>A transit looks like a periodic "box" (rectangular dip) in the light curve. BLS searches for the period and phase of the best-fitting periodic box.</p>
+<div class="highlight"><pre><span></span><code>Model signal:
+             ┌──────────────┐         ┌──────────────┐
+ ────────────┘              └─────────┘              └────────
+              ← box depth →
+ ← period P →
+</code></pre></div>
+<h3 id="how-bls-works-step-by-step">How BLS Works (Step by Step)<a class="headerlink" href="#how-bls-works-step-by-step" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Choose a grid of trial periods</strong>: P_1, P_2, ..., P_N</p>
+</li>
+<li>
+<p><strong>For each trial period P_i</strong>:</p>
+</li>
+<li>Phase-fold the light curve at P_i</li>
+<li>Try different box widths (transit durations): like [1.5, 2.5, 3.5, 5.0] hours</li>
+<li>For each width, slide the box across the phase and compute the "BLS power" -- essentially, how well the box model fits the data</li>
+<li>
+<p>Record the best-fitting box position and its power</p>
+</li>
+<li>
+<p><strong>Build a periodogram</strong>: Plot BLS power vs. period. The peak indicates the most likely orbital period.</p>
+</li>
+<li>
+<p><strong>Extract the best signal</strong>: The period, epoch (T0), duration, and depth of the strongest peak.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>BLS Periodogram:
+Power
+  |           *
+  |          ***
+  |    *    *   *
+  |   ***  *     *    *
+  |  *   **       *  ***
+  | *              **   *
+  |*                     ****
+  └─────────────────────────────→ Period (days)
+       1     5     10    15    20    25
+              ↑
+        Best period (peak)
+</code></pre></div>
+<hr />
+<h2 id="7-false-positives-the-imposters">7. False Positives -- The Imposters<a class="headerlink" href="#7-false-positives-the-imposters" title="Permanent link">&para;</a></h2>
+<p>This is one of the biggest challenges. Many things can mimic a planetary transit:</p>
+<h3 id="71-eclipsing-binaries-ebs">7.1 Eclipsing Binaries (EBs)<a class="headerlink" href="#71-eclipsing-binaries-ebs" title="Permanent link">&para;</a></h3>
+<p>Two stars orbiting each other. When one star passes in front of the other, it creates a dip -- just like a planet transit!</p>
+<div class="highlight"><pre><span></span><code>PLANET TRANSIT:                ECLIPSING BINARY:
+
+  ──────┐    ┌──────           ──────┐    ┌──────
+        │    │                       │    │
+        └────┘                        └──┘
+     (U-shape, shallow)           (V-shape, can be deep)
+     depth: 0.01-1%              depth: can be &gt;10%
+</code></pre></div>
+<p><strong>Key differences</strong>:
+- EBs often show <strong>V-shaped</strong> dips (gradual ingress/egress) vs. U-shaped for planets
+- EBs may show a <strong>secondary eclipse</strong> (when the other star is eclipsed)
+- EBs may show <strong>odd-even depth differences</strong> (primary and secondary eclipses have different depths)</p>
+<h3 id="72-background-eclipsing-binaries-bebs">7.2 Background Eclipsing Binaries (BEBs)<a class="headerlink" href="#72-background-eclipsing-binaries-bebs" title="Permanent link">&para;</a></h3>
+<p>A faint eclipsing binary in the background, blended with the target star in the TESS pixel. The EB's deep eclipse gets diluted by the bright target star, making it look like a shallow planetary transit.</p>
+<p><strong>TESS has large pixels</strong> (21 arcseconds), so this is a significant problem. Multiple stars often fall within one TESS pixel.</p>
+<h3 id="73-stellar-variability">7.3 Stellar Variability<a class="headerlink" href="#73-stellar-variability" title="Permanent link">&para;</a></h3>
+<p>Star spots (dark regions on the star's surface) rotating in and out of view can create periodic brightness changes that look like transits.</p>
+<h3 id="74-instrumental-systematics">7.4 Instrumental Systematics<a class="headerlink" href="#74-instrumental-systematics" title="Permanent link">&para;</a></h3>
+<p>Spacecraft pointing jitter, temperature changes, and scattered light can create periodic signals that mimic transits.</p>
+<h3 id="false-positive-rates">False Positive Rates<a class="headerlink" href="#false-positive-rates" title="Permanent link">&para;</a></h3>
+<p>In the raw TESS data, the false positive rate for transit-like signals is estimated at <strong>40-70%</strong>. This is why ML vetting is so important -- it's the primary tool for separating real planets from imposters.</p>
+<hr />
+<h2 id="8-u-shape-vs-v-shape">8. U-Shape vs V-Shape<a class="headerlink" href="#8-u-shape-vs-v-shape" title="Permanent link">&para;</a></h2>
+<p>This is one of the most important diagnostic tools in transit classification.</p>
+<h3 id="u-shape-planet">U-Shape (Planet!)<a class="headerlink" href="#u-shape-planet" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  ─────────┐                    ┌─────────
+           │                    │
+           │  ┌──────────────┐  │
+           └──┘              └──┘
+              ← flat bottom →
+</code></pre></div>
+<p><strong>Why it's U-shaped</strong>: The planet is much smaller than the star. During ingress, the planet gradually covers more stellar surface. Once fully on the disk (2nd contact), the depth is constant until egress begins (3rd contact). The "flat bottom" is the signature of a small opaque body fully on the stellar disk.</p>
+<h3 id="v-shape-probably-an-eclipsing-binary">V-Shape (Probably an Eclipsing Binary!)<a class="headerlink" href="#v-shape-probably-an-eclipsing-binary" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  ─────────\                  /─────────
+            \                /
+             \              /
+              \            /
+               \    /\    /
+                \  /  \  /
+                 \/    \/
+</code></pre></div>
+<p><strong>Why it's V-shaped</strong>: Two roughly equal-sized stars. There's no flat bottom because the eclipsing star is comparable in size to the eclipsed star -- the eclipse depth is always changing as the overlap area changes.</p>
+<h3 id="grazing-transit-ambiguous">Grazing Transit (Ambiguous)<a class="headerlink" href="#grazing-transit-ambiguous" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  ─────────\              /─────────
+            \            /
+             \          /
+              \        /
+               └──────┘
+</code></pre></div>
+<p>A planet that only grazes the edge of the stellar disk. It looks V-shaped even though it IS a planet. This is one of the hardest cases for ML classifiers.</p>
+<hr />
+<h2 id="9-signal-to-noise-ratio-snr">9. Signal-to-Noise Ratio (SNR)<a class="headerlink" href="#9-signal-to-noise-ratio-snr" title="Permanent link">&para;</a></h2>
+<p>SNR measures how confident we are that a signal is real (not just noise). Higher SNR = more confident detection.</p>
+<h3 id="basic-snr-formula">Basic SNR Formula<a class="headerlink" href="#basic-snr-formula" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>                   transit_depth
+    SNR  =  ──────────────────────────
+             noise_per_point / sqrt(N)
+</code></pre></div>
+<p>Where:
+- <code>transit_depth</code> = the depth of the transit dip
+- <code>noise_per_point</code> = the standard deviation of the out-of-transit flux
+- <code>N</code> = the total number of data points in-transit (across all transits)</p>
+<h3 id="what-snr-values-mean">What SNR Values Mean<a class="headerlink" href="#what-snr-values-mean" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>SNR</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 3</td>
+<td>Not significant (could easily be noise)</td>
+</tr>
+<tr>
+<td>3-5</td>
+<td>Marginal detection (needs more data or follow-up)</td>
+</tr>
+<tr>
+<td>5-10</td>
+<td>Good detection</td>
+</tr>
+<tr>
+<td>10-20</td>
+<td>Strong detection</td>
+</tr>
+<tr>
+<td>&gt; 20</td>
+<td>Very strong detection</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-increase-snr">How to Increase SNR<a class="headerlink" href="#how-to-increase-snr" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>More transits</strong> (longer observation): SNR scales as sqrt(N_transits)</li>
+<li><strong>Brighter star</strong>: Less photon noise per point</li>
+<li><strong>Deeper transit</strong>: Bigger planet and/or smaller star</li>
+<li><strong>Less stellar variability</strong>: Quieter stars are better targets</li>
+</ol>
+<hr />
+<h2 id="10-limb-darkening">10. Limb Darkening<a class="headerlink" href="#10-limb-darkening" title="Permanent link">&para;</a></h2>
+<p>Stars aren't uniformly bright disks. The center of the stellar disk appears brighter than the edges (limb). This is called <strong>limb darkening</strong>.</p>
+<div class="highlight"><pre><span></span><code>  ┌───────────────────┐
+  │  dim   ···   dim  │
+  │  ··  BRIGHT  ··   │
+  │ ·   (center)   ·  │
+  │  ··  BRIGHT  ··   │
+  │  dim   ···   dim  │
+  └───────────────────┘
+      ← limb darkening →
+</code></pre></div>
+<h3 id="why-it-matters">Why It Matters<a class="headerlink" href="#why-it-matters" title="Permanent link">&para;</a></h3>
+<p>Limb darkening affects the transit shape:
+- When the planet crosses the bright center, it blocks more light
+- When it crosses the dim limbs (ingress/egress), it blocks less light
+- This makes the transit shape slightly <strong>rounded</strong> instead of perfectly flat-bottomed</p>
+<div class="highlight"><pre><span></span><code>WITHOUT limb darkening:        WITH limb darkening:
+  ──────┐        ┌──────        ──────╲        ╱──────
+        │        │                     ╲      ╱
+        └────────┘                      ╰────╯
+     (perfectly flat)              (slightly rounded)
+</code></pre></div>
+<hr />
+<h2 id="11-glossary">11. Glossary<a class="headerlink" href="#11-glossary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BLS</strong></td>
+<td>Box Least Squares -- algorithm for finding periodic box-shaped transit signals</td>
+</tr>
+<tr>
+<td><strong>Contact points</strong></td>
+<td>The four moments when the planet's edge touches the star's edge during a transit</td>
+</tr>
+<tr>
+<td><strong>Detrending</strong></td>
+<td>Removing long-term trends (stellar variability, instrumental drift) from a light curve</td>
+</tr>
+<tr>
+<td><strong>Eclipsing binary</strong></td>
+<td>Two stars orbiting each other, where one periodically blocks the other's light</td>
+</tr>
+<tr>
+<td><strong>Epoch (T0)</strong></td>
+<td>The time of the first transit midpoint</td>
+</tr>
+<tr>
+<td><strong>Flat bottom</strong></td>
+<td>The constant-depth portion of a U-shaped transit (planet fully on the stellar disk)</td>
+</tr>
+<tr>
+<td><strong>Flux</strong></td>
+<td>The brightness of a star, usually normalized to 1.0</td>
+</tr>
+<tr>
+<td><strong>Ingress</strong></td>
+<td>The beginning of a transit (planet entering the stellar disk)</td>
+</tr>
+<tr>
+<td><strong>Egress</strong></td>
+<td>The end of a transit (planet leaving the stellar disk)</td>
+</tr>
+<tr>
+<td><strong>Limb darkening</strong></td>
+<td>Stars appear dimmer at their edges than their center</td>
+</tr>
+<tr>
+<td><strong>Periodogram</strong></td>
+<td>A graph showing signal strength vs. trial period</td>
+</tr>
+<tr>
+<td><strong>Phase folding</strong></td>
+<td>Stacking all transits on top of each other by plotting data vs. orbital phase</td>
+</tr>
+<tr>
+<td><strong>Savitzky-Golay filter</strong></td>
+<td>A smoothing filter used to remove stellar variability while preserving transit shapes</td>
+</tr>
+<tr>
+<td><strong>SNR</strong></td>
+<td>Signal-to-noise ratio -- confidence that a signal is real</td>
+</tr>
+<tr>
+<td><strong>Transit depth</strong></td>
+<td>The fractional decrease in brightness during a transit = (R_planet/R_star)^2</td>
+</tr>
+<tr>
+<td><strong>Transit duration</strong></td>
+<td>Total time from 1st to 4th contact</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<p><strong>Part 3: TESS and Space Missions</strong> -- Everything about TESS, Kepler, JWST, and the other telescopes that provide the data we will work with.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1584 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Learning guide for exoplanet detection using machine learning on TESS data">
+      
+      
+      
+        <link rel="canonical" href="https://arshcypherz.github.io/learning/05-research-landscape/">
+      
+      
+        <link rel="prev" href="../04-ml-for-exoplanets/">
+      
+      
+        <link rel="next" href="../06-research-directions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>5. Research Landscape - Exoplanet Detection with ML</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-5-research-landscape-whats-been-done-and-where-are-the-gaps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Exoplanet Detection with ML" class="md-header__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Exoplanet Detection with ML
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Research Landscape
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Exoplanet Detection with ML" class="md-nav__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Exoplanet Detection with ML
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-astronomy-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Astronomy Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-transit-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Transit Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tess-and-missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. TESS and Space Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-ml-for-exoplanets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. ML for Exoplanets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Research Landscape
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Research Landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-timeline-of-key-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Timeline of Key Papers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-foundational-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Foundational Papers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Foundational Papers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paper-1-astronet-shallue-vanderburg-2018" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 1: AstroNet (Shallue &amp; Vanderburg, 2018)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paper-2-exominer-valizadegan-et-al-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 2: ExoMiner (Valizadegan et al., 2021)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paper-3-exominer-2024" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 3: ExoMiner++ (2024)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-state-of-the-art-2024-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. State of the Art (2024-2025)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. State of the Art (2024-2025)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-best-systems-look-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Best Systems Look Like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-has-been-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What Has Been Done
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. What Has Been Done">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#well-explored-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Well-Explored Areas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-means-for-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Means for us
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-gaps-whats-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The Gaps -- What's Missing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The Gaps -- What&#39;s Missing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gap-1-explainable-ai-xai-for-transit-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 1: Explainable AI (XAI) for Transit Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-2-physics-informed-neural-networks-pinns-for-transit-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 2: Physics-Informed Neural Networks (PINNs) for Transit Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-3-multi-mission-transfer-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 3: Multi-Mission Transfer Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-4-anomaly-detection-for-novel-phenomena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 4: Anomaly Detection for Novel Phenomena
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-5-atmospheric-prediction-from-photometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 5: Atmospheric Prediction from Photometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-6-robust-evaluation-and-benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 6: Robust Evaluation and Benchmarking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reading-list-priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reading List (Priority Order)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Reading List (Priority Order)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-read-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Must-Read (Start Here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cutting-edge-for-our-research-angle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutting Edge (For Our Research Angle)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-xai-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For XAI Direction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-find-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Find Papers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-research-directions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Research Directions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-paper-writing-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Paper Writing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-timeline-of-key-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Timeline of Key Papers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-foundational-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Foundational Papers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Foundational Papers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paper-1-astronet-shallue-vanderburg-2018" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 1: AstroNet (Shallue &amp; Vanderburg, 2018)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paper-2-exominer-valizadegan-et-al-2021" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 2: ExoMiner (Valizadegan et al., 2021)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paper-3-exominer-2024" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper 3: ExoMiner++ (2024)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-state-of-the-art-2024-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. State of the Art (2024-2025)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. State of the Art (2024-2025)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-best-systems-look-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Best Systems Look Like
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-what-has-been-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. What Has Been Done
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. What Has Been Done">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#well-explored-areas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Well-Explored Areas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-means-for-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Means for us
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-gaps-whats-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The Gaps -- What's Missing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The Gaps -- What&#39;s Missing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gap-1-explainable-ai-xai-for-transit-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 1: Explainable AI (XAI) for Transit Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-2-physics-informed-neural-networks-pinns-for-transit-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 2: Physics-Informed Neural Networks (PINNs) for Transit Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-3-multi-mission-transfer-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 3: Multi-Mission Transfer Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-4-anomaly-detection-for-novel-phenomena" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 4: Anomaly Detection for Novel Phenomena
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-5-atmospheric-prediction-from-photometry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 5: Atmospheric Prediction from Photometry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gap-6-robust-evaluation-and-benchmarking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gap 6: Robust Evaluation and Benchmarking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-reading-list-priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Reading List (Priority Order)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Reading List (Priority Order)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#must-read-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Must-Read (Start Here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important Context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cutting-edge-for-our-research-angle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cutting Edge (For Our Research Angle)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-xai-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For XAI Direction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-find-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to Find Papers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-5-research-landscape-whats-been-done-and-where-are-the-gaps">Part 5: Research Landscape -- What's Been Done and Where Are the Gaps<a class="headerlink" href="#part-5-research-landscape-whats-been-done-and-where-are-the-gaps" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Prerequisites</strong>: <a href="../01-astronomy-basics/">Parts 1-4</a>.<br />
+<strong>What you'll learn</strong>: Key published papers, the current state of the art, what has NOT been done yet.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-timeline-of-key-papers">Timeline of Key Papers</a></li>
+<li><a href="#2-foundational-papers">Foundational Papers</a></li>
+<li><a href="#3-state-of-the-art-2024-2025">State of the Art (2024-2025)</a></li>
+<li><a href="#4-what-has-been-done">What Has Been Done</a></li>
+<li><a href="#5-the-gaps----whats-missing">The Gaps -- What's Missing</a></li>
+<li><a href="#6-reading-list-priority-order">Reading List (Priority Order)</a></li>
+</ol>
+<hr />
+<h2 id="1-timeline-of-key-papers">1. Timeline of Key Papers<a class="headerlink" href="#1-timeline-of-key-papers" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>2014  ──  First ML applied to Kepler (McCauliff et al.) - Random Forest
+          │
+2017  ──  Autovetter (Catanzarite 2017) - Automated transit vetting
+          │
+2018  ──  AstroNet (Shallue &amp; Vanderburg) - CNN, validated 2 new planets  ◄── LANDMARK
+          │
+2018  ──  TESS launches
+          │
+2019  ──  Ansdell et al. - CNN on Kepler with global+local view
+          │
+2020  ──  Osborn et al. - Random Forest for TESS (NGTS follow-up)
+          │
+2021  ──  ExoMiner (Valizadegan et al.) - NASA&#39;s ML vetter         ◄── LANDMARK
+          │    [Validated 301 new Kepler planets]
+          │
+2022  ──  ExoMiner v2 - Multi-task learning, diagnostic features
+          │
+2023  ──  Salinas et al. - Transformers for TESS FFIs               ◄── EMERGING
+          │
+2024  ──  ExoMiner++ - Transfer learning Kepler→TESS                ◄── LATEST
+          │    [First large-scale ML catalog for TESS 2-min cadence]
+          │
+2024  ──  Gorchakova &amp; Creaner - Synthetic augmentation for transits
+          │
+2025  ──  CNN+RNN hybrids for Kepler DR25
+          │
+2025  ──  Trehan et al. - Bayesian ML for atmospheric prediction
+</code></pre></div>
+<hr />
+<h2 id="2-foundational-papers">2. Foundational Papers<a class="headerlink" href="#2-foundational-papers" title="Permanent link">&para;</a></h2>
+<h3 id="paper-1-astronet-shallue-vanderburg-2018">Paper 1: AstroNet (Shallue &amp; Vanderburg, 2018)<a class="headerlink" href="#paper-1-astronet-shallue-vanderburg-2018" title="Permanent link">&para;</a></h3>
+<p><strong>Title</strong>: "Identifying Exoplanets with Deep Learning: A Five Planet Resonant Chain around Kepler-80 and an Eighth Planet around Kepler-90"</p>
+<p><strong>Why it matters</strong>: This was the paper that proved deep learning could find planets that humans missed. Google Brain + Harvard collaboration.</p>
+<p><strong>Architecture</strong>:
+<div class="highlight"><pre><span></span><code>Global View (2001 pts) → CNN → Feature Vector ─┐
+                                                 ├── Dense Layers → Planet Probability
+Local View (201 pts) → CNN → Feature Vector  ───┘
+</code></pre></div></p>
+<p><strong>Key contributions</strong>:
+- Dual-view approach (global + local)
+- Validated Kepler-90i (8th planet in a system!) and Kepler-80g
+- Showed CNNs outperform hand-crafted features</p>
+<p><strong>Limitations</strong>:
+- No physics injection (purely data-driven)
+- No temporal modeling (CNN only, no LSTM)
+- No attention mechanism
+- Trained and tested only on Kepler</p>
+<h3 id="paper-2-exominer-valizadegan-et-al-2021">Paper 2: ExoMiner (Valizadegan et al., 2021)<a class="headerlink" href="#paper-2-exominer-valizadegan-et-al-2021" title="Permanent link">&para;</a></h3>
+<p><strong>Title</strong>: "ExoMiner: A Highly Accurate and Explainable Deep Learning Classifier That Validates 301 New Exoplanets"</p>
+<p><strong>Why it matters</strong>: NASA's official ML-based planet vetter. Used to validate more planets than any other ML system.</p>
+<p><strong>Architecture</strong>:
+<div class="highlight"><pre><span></span><code>Transit View → CNN ──────────────────────┐
+Odd/Even View → CNN ─────────────────────┤
+Secondary Eclipse View → CNN ────────────┤
+                                          ├── Dense → Planet Prob
+Diagnostic Features → Dense ─────────────┤
+  (centroid shift, crowding, etc.)       │
+Stellar Parameters → Dense ──────────────┘
+</code></pre></div></p>
+<p><strong>Key contributions</strong>:
+- Multi-input design with multiple diagnostic views
+- Used centroid analysis (spatial information) -- detects background EBs
+- Explainability through per-view scores
+- Validated 301 new confirmed planets</p>
+<p><strong>Limitations</strong>:
+- Kepler-specific (different noise than TESS)
+- No temporal (LSTM) component
+- Complex pipeline with many specialized inputs</p>
+<h3 id="paper-3-exominer-2024">Paper 3: ExoMiner++ (2024)<a class="headerlink" href="#paper-3-exominer-2024" title="Permanent link">&para;</a></h3>
+<p><strong>Title</strong>: Transfer learning from Kepler to TESS</p>
+<p><strong>Key contribution</strong>: Showed that models trained on Kepler can be adapted to TESS through fine-tuning, producing the first large-scale ML vetting catalog for TESS 2-minute cadence data.</p>
+<p><strong>Limitation</strong>: Transfer wasn't perfect -- TESS's shorter baselines and different systematics cause performance degradation.</p>
+<hr />
+<h2 id="3-state-of-the-art-2024-2025">3. State of the Art (2024-2025)<a class="headerlink" href="#3-state-of-the-art-2024-2025" title="Permanent link">&para;</a></h2>
+<h3 id="what-the-best-systems-look-like">What the Best Systems Look Like<a class="headerlink" href="#what-the-best-systems-look-like" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Architecture</th>
+<th>Data</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>Unique Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ExoMiner++</td>
+<td>Multi-CNN</td>
+<td>Kepler→TESS</td>
+<td>~95%</td>
+<td>~93%</td>
+<td>Transfer learning</td>
+</tr>
+<tr>
+<td>Salinas 2023</td>
+<td>Transformer</td>
+<td>TESS FFI</td>
+<td>~90%</td>
+<td>~88%</td>
+<td>Self-attention</td>
+</tr>
+<tr>
+<td>CNN+RNN 2025</td>
+<td>CNN + BiLSTM</td>
+<td>Kepler DR25</td>
+<td>~92%</td>
+<td>~95%</td>
+<td>Hybrid temporal</td>
+</tr>
+</tbody>
+</table>
+<h3 id="current-benchmarks">Current Benchmarks<a class="headerlink" href="#current-benchmarks" title="Permanent link">&para;</a></h3>
+<p>On Kepler DR25 test set:
+- <strong>ExoMiner</strong>: AUC-ROC = 0.98, Precision = 95%, Recall = 93%
+- <strong>AstroNet</strong>: AUC-ROC = 0.96, Precision = 90%, Recall = 88%
+- <strong>Random Forest (baseline)</strong>: AUC-ROC = 0.92, Precision = 85%, Recall = 80%</p>
+<p>On TESS data (less standardized benchmarks):
+- <strong>ExoMiner++</strong>: Precision ~93%, Recall ~90% (fine-tuned)
+- Most other models haven't been rigorously benchmarked on TESS</p>
+<hr />
+<h2 id="4-what-has-been-done">4. What Has Been Done<a class="headerlink" href="#4-what-has-been-done" title="Permanent link">&para;</a></h2>
+<h3 id="well-explored-areas">Well-Explored Areas<a class="headerlink" href="#well-explored-areas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Status</th>
+<th>What's been done</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CNN for transit classification</td>
+<td>Mature</td>
+<td>AstroNet, ExoMiner, dozens of papers</td>
+</tr>
+<tr>
+<td>Random Forest for transit vetting</td>
+<td>Mature</td>
+<td>Multiple papers, well-understood</td>
+</tr>
+<tr>
+<td>BLS for signal detection</td>
+<td>Very mature</td>
+<td>Standard algorithm, widely used</td>
+</tr>
+<tr>
+<td>Kepler data classification</td>
+<td>Saturated</td>
+<td>Little room for improvement</td>
+</tr>
+<tr>
+<td>Hot Jupiter detection</td>
+<td>Saturated</td>
+<td>Easy targets, all found</td>
+</tr>
+<tr>
+<td>Synthetic transit generation</td>
+<td>Growing</td>
+<td>Several papers on physics-informed generation</td>
+</tr>
+<tr>
+<td>Transfer learning (Kepler→TESS)</td>
+<td>Active</td>
+<td>ExoMiner++ leading, still room for improvement</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-this-means-for-us">What This Means for us<a class="headerlink" href="#what-this-means-for-us" title="Permanent link">&para;</a></h3>
+<p>Basic exoplanet detection with ML is well-trodden ground. A paper that just says "we used a CNN to classify TESS transits" will struggle to get published because dozens of groups have done similar work.</p>
+<p><strong>We need a unique angle.</strong></p>
+<hr />
+<h2 id="5-the-gaps-whats-missing">5. The Gaps -- What's Missing<a class="headerlink" href="#5-the-gaps-whats-missing" title="Permanent link">&para;</a></h2>
+<p>These are the areas where our research could make a genuine contribution:</p>
+<h3 id="gap-1-explainable-ai-xai-for-transit-classification">Gap 1: Explainable AI (XAI) for Transit Classification<a class="headerlink" href="#gap-1-explainable-ai-xai-for-transit-classification" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: Deep learning models are black boxes. Astronomers don't trust classifications they can't understand. A model says "planet with 95% confidence" -- but WHY?</p>
+<p><strong>Current state</strong>: ExoMiner has per-view scores (some explainability). But no one has done deep XAI analysis (Grad-CAM, SHAP, attention visualization) specifically for transit classifiers.</p>
+<p><strong>Opportunity</strong>: Can make model which has component scores (shape_score, temporal_score). and could extend this with:
+- Grad-CAM on the CNN to visualize which parts of the transit shape the model focuses on
+- Attention weight visualization from the LSTM to show which time steps matter
+- SHAP values for the physics features to show how BLS parameters influence the decision</p>
+<p><strong>Novelty level</strong>: HIGH. No paper has done comprehensive XAI for a hybrid transit classifier.</p>
+<h3 id="gap-2-physics-informed-neural-networks-pinns-for-transit-detection">Gap 2: Physics-Informed Neural Networks (PINNs) for Transit Detection<a class="headerlink" href="#gap-2-physics-informed-neural-networks-pinns-for-transit-detection" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: Most ML models are purely data-driven -- they learn from labeled examples but don't "know" physics. When they encounter unusual situations (rare planet types, unusual stars), they fail silently.</p>
+<p><strong>Opportunity</strong>: 
+- Physics-informed loss functions (penalize predictions that violate Kepler's laws)
+- Embedding transit models (Mandel &amp; Agol 2002) as differentiable layers
+- Using physics constraints during inference (reject candidates that violate physical laws, even if the CNN says "planet")</p>
+<p><strong>Novelty level</strong>: HIGH. True PINNs haven't been applied to transit classification.</p>
+<h3 id="gap-3-multi-mission-transfer-learning">Gap 3: Multi-Mission Transfer Learning<a class="headerlink" href="#gap-3-multi-mission-transfer-learning" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: Models trained on Kepler don't work well on TESS (different noise, cadence, baseline). Future missions (PLATO, Roman) will have yet different characteristics.</p>
+<p><strong>Current state</strong>: ExoMiner++ showed basic transfer learning works. But the methodology is ad-hoc.</p>
+<p><strong>Opportunity</strong>: Systematic study of domain adaptation techniques:
+- Feature alignment between missions
+- Adversarial domain adaptation
+- Multi-task learning across missions simultaneously
+- Zero-shot transfer to PLATO (before it launches)</p>
+<p><strong>Novelty level</strong>: MEDIUM-HIGH.</p>
+<h3 id="gap-4-anomaly-detection-for-novel-phenomena">Gap 4: Anomaly Detection for Novel Phenomena<a class="headerlink" href="#gap-4-anomaly-detection-for-novel-phenomena" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: All current classifiers are trained on KNOWN categories (planet vs. EB). But what about phenomena we haven't categorized yet?</p>
+<p><strong>Current state</strong>: Almost no work on unsupervised/semi-supervised anomaly detection in TESS light curves.</p>
+<p><strong>Opportunity</strong>:
+- Autoencoders trained on "normal" light curves -- flag anything unusual
+- Potential discoveries: exomoons, exocomets, disintegrating planets, Boyajian's-Star-like dippers</p>
+<p><strong>Novelty level</strong>: HIGH. Very few papers on this for TESS.</p>
+<h3 id="gap-5-atmospheric-prediction-from-photometry">Gap 5: Atmospheric Prediction from Photometry<a class="headerlink" href="#gap-5-atmospheric-prediction-from-photometry" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: Can we predict what a planet's atmosphere looks like BEFORE JWST observes it, using just transit photometric data?</p>
+<p><strong>Current state</strong>: Trehan et al. (2025) started this with a Bayesian ML framework, but it's very early.</p>
+<p><strong>Opportunity</strong>: Can use transit light curve features (depth, duration, wavelength-dependent depth if available) to predict atmospheric properties (composition, cloud coverage, scale height).</p>
+<p><strong>Novelty level</strong>: VERY HIGH. Extremely new area.</p>
+<h3 id="gap-6-robust-evaluation-and-benchmarking">Gap 6: Robust Evaluation and Benchmarking<a class="headerlink" href="#gap-6-robust-evaluation-and-benchmarking" title="Permanent link">&para;</a></h3>
+<p><strong>The problem</strong>: Every paper uses different datasets, different preprocessing, different train/test splits, and different metrics. It's nearly impossible to fairly compare methods.</p>
+<p><strong>Current state</strong>: No standardized benchmark exists for TESS transit classification.</p>
+<p><strong>Opportunity</strong>: Create a standardized benchmark dataset and evaluation protocol for TESS. This would be a valuable community resource paper.</p>
+<p><strong>Novelty level</strong>: MEDIUM (but HIGH impact).</p>
+<hr />
+<h2 id="6-reading-list-priority-order">6. Reading List (Priority Order)<a class="headerlink" href="#6-reading-list-priority-order" title="Permanent link">&para;</a></h2>
+<h3 id="must-read-start-here">Must-Read (Start Here)<a class="headerlink" href="#must-read-start-here" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Shallue &amp; Vanderburg (2018)</strong> - "Identifying Exoplanets with Deep Learning"</li>
+<li>The paper that started it all.</li>
+<li>
+<p>arXiv: 1712.05044</p>
+</li>
+<li>
+<p><strong>Valizadegan et al. (2022)</strong> - "ExoMiner: A Highly Accurate and Explainable Deep Learning Classifier"</p>
+</li>
+<li>NASA's state of the art.</li>
+<li>
+<p>arXiv: 2111.10009</p>
+</li>
+<li>
+<p><strong>Pearson et al. (2018)</strong> - "Searching for Exoplanets using Artificial Intelligence"</p>
+</li>
+<li>Good overview of ML approaches for transit detection.</li>
+<li>arXiv: 1706.04319</li>
+</ol>
+<h3 id="important-context">Important Context<a class="headerlink" href="#important-context" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Kovacs et al. (2002)</strong> - "A box-fitting algorithm in the search for periodic transits"</li>
+<li>
+<p>The BLS algorithm paper.</p>
+</li>
+<li>
+<p><strong>Kempton et al. (2018)</strong> - "A Framework for Prioritizing the TESS Planetary Candidates Most Amenable to Atmospheric Characterization"</p>
+</li>
+<li>
+<p>TSM formula.</p>
+</li>
+<li>
+<p><strong>Kopparapu et al. (2013)</strong> - "Habitable Zones Around Main-Sequence Stars"</p>
+</li>
+<li>Habitable zone calculation.</li>
+</ol>
+<h3 id="cutting-edge-for-our-research-angle">Cutting Edge (For Our Research Angle)<a class="headerlink" href="#cutting-edge-for-our-research-angle" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ExoMiner++ (2024)</strong> - Transfer learning Kepler→TESS</li>
+<li>
+<p>arXiv: 2601.14877</p>
+</li>
+<li>
+<p><strong>Salinas et al. (2023/2025)</strong> - "Exoplanet Transit Candidate Identification via a Transformer-Based Algorithm"</p>
+</li>
+<li>
+<p>Transformers for TESS.</p>
+</li>
+<li>
+<p><strong>Trehan et al. (2025)</strong> - Bayesian ML for atmospheric prediction</p>
+</li>
+<li>
+<p>New frontier.</p>
+</li>
+<li>
+<p><strong>Gorchakova &amp; Creaner (2024)</strong> - Synthetic augmentation for transit detection</p>
+</li>
+</ol>
+<h3 id="for-xai-direction">For XAI Direction<a class="headerlink" href="#for-xai-direction" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Selvaraju et al. (2017)</strong> - "Grad-CAM: Visual Explanations from Deep Networks"</p>
+<ul>
+<li>The Grad-CAM technique.</li>
+</ul>
+</li>
+<li>
+<p><strong>Lundberg &amp; Lee (2017)</strong> - "A Unified Approach to Interpreting Model Predictions" (SHAP)</p>
+<ul>
+<li>SHAP values for feature importance.</li>
+</ul>
+</li>
+</ol>
+<h3 id="how-to-find-papers">How to Find Papers<a class="headerlink" href="#how-to-find-papers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>arXiv</strong> (arxiv.org): Preprint server. All astronomy and ML papers appear here first. Search for "exoplanet machine learning" or "transit classification deep learning."</li>
+<li><strong>NASA ADS</strong> (ui.adsabs.harvard.edu): The astronomy-specific paper search engine. More focused than Google Scholar.</li>
+<li><strong>Google Scholar</strong>: Good for finding citation counts and related papers.</li>
+<li><strong>Semantic Scholar</strong>: Good for finding the most influential papers in a topic.</li>
+</ul>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>CNN-based transit classification is mature</strong> -- we can't publish "just another CNN" paper</li>
+<li><strong>The biggest gaps</strong> are in XAI, physics-informed ML, anomaly detection, and multi-mission transfer</li>
+<li><strong>We need a clear unique angle</strong> and rigorous evaluation to publish</li>
+<li><strong>Read the AstroNet and ExoMiner papers</strong> first -- they're our direct predecessors</li>
+</ol>
+<hr />
+<h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<p><strong>Part 6: Research Directions</strong> -- Detailed analysis of each potential research direction, with feasibility assessment and implementation roadmap.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

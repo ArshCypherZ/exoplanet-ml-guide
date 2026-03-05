@@ -1,0 +1,2686 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Learning guide for exoplanet detection using machine learning on TESS data">
+      
+      
+      
+        <link rel="canonical" href="https://arshcypherz.github.io/learning/04-ml-for-exoplanets/">
+      
+      
+        <link rel="prev" href="../03-tess-and-missions/">
+      
+      
+        <link rel="next" href="../05-research-landscape/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>4. ML for Exoplanets - Exoplanet Detection with ML</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#part-4-machine-learning-for-exoplanet-detection-the-complete-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Exoplanet Detection with ML" class="md-header__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Exoplanet Detection with ML
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. ML for Exoplanets
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Exoplanet Detection with ML" class="md-nav__button md-logo" aria-label="Exoplanet Detection with ML" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Exoplanet Detection with ML
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-astronomy-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Astronomy Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-transit-method/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Transit Method
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-tess-and-missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. TESS and Space Missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. ML for Exoplanets
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. ML for Exoplanets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-ml-for-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why ML for Exoplanets?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Why ML for Exoplanets?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-scale-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Scale Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-pattern-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Pattern Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The History
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-classification-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Classification Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Classification Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-model-sees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Model Sees
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-classical-ml-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Classical ML Approaches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Classical ML Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-feature-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Feature Engineering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-random-forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Random Forest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-xgboost-gradient-boosted-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 XGBoost / Gradient Boosted Trees
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-why-classical-ml-falls-short" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Why Classical ML Falls Short
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-convolutional-neural-networks-cnns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Convolutional Neural Networks (CNNs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Convolutional Neural Networks (CNNs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-how-1d-cnns-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 How 1D CNNs Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-cnn-architecture-for-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 CNN Architecture for Transits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-what-cnns-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 What CNNs Learn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-notable-cnn-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Notable CNN Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recurrent-neural-networks-rnnslstms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Recurrent Neural Networks (RNNs/LSTMs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Recurrent Neural Networks (RNNs/LSTMs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-basic-rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Basic RNN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-lstm-long-short-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 LSTM (Long Short-Term Memory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-bidirectional-lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Bidirectional LSTM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-attention-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Attention Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-why-lstm-for-light-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Why LSTM for Light Curves?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Self-Attention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-why-transformers-for-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Why Transformers for Transits?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Current State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-transformer-vs-cnn-vs-lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Transformer vs CNN vs LSTM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-class-imbalance-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The Class Imbalance Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The Class Imbalance Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Reality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-its-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It's a Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-training-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Training Data Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Training Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-kepler-labelled-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Kepler Labelled Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-synthetic-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Synthetic Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-example-data-preprocessing-for-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Example Data Preprocessing for Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Evaluation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Evaluation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-recall-matters-most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Recall Matters Most
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roc-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROC Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Loss Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Loss Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-cross-entropy-bce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binary Cross-Entropy (BCE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bce-with-logits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCE with Logits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#focal-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Focal Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#focalloss-alpha-1-pgamma-logp-when-y1-1-alpha-pgamma-log1-p-when-y0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FocalLoss = -alpha * (1-p)^gamma * log(p) when y=1 = -(1-alpha) * p^gamma * log(1-p) when y=0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-augmentation-for-light-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Data Augmentation for Light Curves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Data Augmentation for Light Curves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#valid-augmentations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Valid Augmentations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalid-augmentations-dont-do-these" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invalid Augmentations (Don't Do These!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-model-deployment-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Model Deployment (ONNX)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Model Deployment (ONNX)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is ONNX?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ONNX?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-putting-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Putting It All Together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-research-landscape/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Research Landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-research-directions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Research Directions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-paper-writing-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Paper Writing Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-why-ml-for-exoplanets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Why ML for Exoplanets?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Why ML for Exoplanets?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-scale-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Scale Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-pattern-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Pattern Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The History
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-classification-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The Classification Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The Classification Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-the-model-sees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Model Sees
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-classical-ml-approaches" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Classical ML Approaches
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Classical ML Approaches">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-feature-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Feature Engineering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-random-forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Random Forest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-xgboost-gradient-boosted-trees" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 XGBoost / Gradient Boosted Trees
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-why-classical-ml-falls-short" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Why Classical ML Falls Short
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-convolutional-neural-networks-cnns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Convolutional Neural Networks (CNNs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Convolutional Neural Networks (CNNs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-how-1d-cnns-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 How 1D CNNs Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-cnn-architecture-for-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 CNN Architecture for Transits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-what-cnns-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 What CNNs Learn
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Key Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-notable-cnn-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Notable CNN Models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recurrent-neural-networks-rnnslstms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Recurrent Neural Networks (RNNs/LSTMs)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Recurrent Neural Networks (RNNs/LSTMs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-basic-rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Basic RNN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-lstm-long-short-term-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 LSTM (Long Short-Term Memory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-bidirectional-lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Bidirectional LSTM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-attention-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Attention Mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-why-lstm-for-light-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Why LSTM for Light Curves?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-transformers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Transformers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Transformers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Self-Attention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-why-transformers-for-transits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Why Transformers for Transits?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-current-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Current State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-transformer-vs-cnn-vs-lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Transformer vs CNN vs LSTM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-the-class-imbalance-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. The Class Imbalance Problem
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. The Class Imbalance Problem">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-reality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Reality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-its-a-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why It's a Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Possible Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-training-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Training Data Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Training Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-kepler-labelled-time-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Kepler Labelled Time Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-synthetic-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Synthetic Injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-example-data-preprocessing-for-training" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Example Data Preprocessing for Training
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-evaluation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Evaluation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Evaluation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#confusion-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confusion Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-recall-matters-most" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Recall Matters Most
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#roc-curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROC Curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Loss Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Loss Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#binary-cross-entropy-bce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Binary Cross-Entropy (BCE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bce-with-logits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCE with Logits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#focal-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Focal Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#focalloss-alpha-1-pgamma-logp-when-y1-1-alpha-pgamma-log1-p-when-y0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FocalLoss = -alpha * (1-p)^gamma * log(p) when y=1 = -(1-alpha) * p^gamma * log(1-p) when y=0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-data-augmentation-for-light-curves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Data Augmentation for Light Curves
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Data Augmentation for Light Curves">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#valid-augmentations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Valid Augmentations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalid-augmentations-dont-do-these" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invalid Augmentations (Don't Do These!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-model-deployment-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Model Deployment (ONNX)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Model Deployment (ONNX)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is ONNX?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ONNX?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-putting-it-all-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Putting It All Together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's Next?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="part-4-machine-learning-for-exoplanet-detection-the-complete-guide">Part 4: Machine Learning for Exoplanet Detection -- The Complete Guide<a class="headerlink" href="#part-4-machine-learning-for-exoplanet-detection-the-complete-guide" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Prerequisites</strong>: <a href="../01-astronomy-basics/">Parts 1-3</a>. Basic Python and ML familiarity helpful but not required.<br />
+<strong>What you'll learn</strong>: Some ML techniques used in exoplanet detection, from traditional algorithms to deep learning, with code intuition.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#1-why-ml-for-exoplanets">Why ML for Exoplanets?</a></li>
+<li><a href="#2-the-classification-problem">The Classification Problem</a></li>
+<li><a href="#3-classical-ml-approaches">Classical ML Approaches</a></li>
+<li><a href="#4-convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</a></li>
+<li><a href="#5-recurrent-neural-networks-rnnslstms">Recurrent Neural Networks (RNNs/LSTMs)</a></li>
+<li><a href="#6-transformers">Transformers</a></li>
+<li><a href="#7-the-class-imbalance-problem">The Class Imbalance Problem</a></li>
+<li><a href="#8-training-data-sources">Training Data Sources</a></li>
+<li><a href="#9-evaluation-metrics">Evaluation Metrics</a></li>
+<li><a href="#10-loss-functions">Loss Functions</a></li>
+<li><a href="#11-data-augmentation-for-light-curves">Data Augmentation for Light Curves</a></li>
+<li><a href="#12-model-deployment-onnx">Model Deployment (ONNX)</a></li>
+<li><a href="#13-putting-it-all-together">Putting It All Together</a></li>
+</ol>
+<hr />
+<h2 id="1-why-ml-for-exoplanets">1. Why ML for Exoplanets?<a class="headerlink" href="#1-why-ml-for-exoplanets" title="Permanent link">&para;</a></h2>
+<h3 id="the-scale-problem">The Scale Problem<a class="headerlink" href="#the-scale-problem" title="Permanent link">&para;</a></h3>
+<ul>
+<li>TESS observes ~200 million stars</li>
+<li>Each star produces a time series with thousands of data points</li>
+<li>The SPOC pipeline flags ~thousands of TCEs per sector</li>
+<li>Manual vetting of each candidate takes an astronomer 10-30 minutes</li>
+<li><strong>At scale, manual vetting is impossible</strong></li>
+</ul>
+<h3 id="the-pattern-problem">The Pattern Problem<a class="headerlink" href="#the-pattern-problem" title="Permanent link">&para;</a></h3>
+<p>Distinguishing real planets from false positives requires recognizing subtle patterns:
+- Transit shape (U vs V)
+- Depth consistency (odd/even transits)
+- Secondary eclipses
+- Centroid shifts
+- Stellar variability patterns</p>
+<p><strong>Humans are good at this -- but slow. ML is fast AND can learn patterns humans might miss.</strong></p>
+<h3 id="the-history">The History<a class="headerlink" href="#the-history" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Milestone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2014</td>
+<td>First ML applied to Kepler data (Random Forest)</td>
+</tr>
+<tr>
+<td>2018</td>
+<td>AstroNet CNN (Shallue &amp; Vanderburg) -- deep learning breakthrough</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>ExoMiner (Valizadegan et al.) -- NASA's official ML vetter</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>Transformers applied to TESS FFIs (Salinas et al.)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>ExoMiner++ -- transfer learning Kepler to TESS</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-the-classification-problem">2. The Classification Problem<a class="headerlink" href="#2-the-classification-problem" title="Permanent link">&para;</a></h2>
+<p>At its core, transit vetting is a <strong>binary classification</strong> task:</p>
+<div class="highlight"><pre><span></span><code>Input: Light curve + metadata
+  │
+  ▼
+┌─────────────────────┐
+│    ML CLASSIFIER     │
+└──────────┬──────────┘
+           │
+    ┌──────┴──────┐
+    ▼              ▼
+ PLANET         FALSE POSITIVE
+ (real transit)  (EB, BEB, noise,
+                  stellar variability)
+</code></pre></div>
+<h3 id="what-the-model-sees">What the Model Sees<a class="headerlink" href="#what-the-model-sees" title="Permanent link">&para;</a></h3>
+<p>Depending on the approach:</p>
+<p><strong>Approach 1 -- Feature-based (Classical ML)</strong>:
+<div class="highlight"><pre><span></span><code>Input: [period=5.2d, depth=1200ppm, duration=2.1h, snr=15.3, 
+        odd_even_ratio=1.02, secondary_depth=0ppm, ...]
+</code></pre></div></p>
+<p><strong>Approach 2 -- Image-based (Deep Learning)</strong>:
+<div class="highlight"><pre><span></span><code>Input: Phase-folded light curve as a 1D &quot;image&quot;
+       [1.0, 1.0, 0.999, 0.998, ..., 0.988, ..., 0.998, 1.0, 1.0]
+        ↑ out-of-transit    ↑ in-transit       ↑ out-of-transit
+</code></pre></div></p>
+<hr />
+<h2 id="3-classical-ml-approaches">3. Classical ML Approaches<a class="headerlink" href="#3-classical-ml-approaches" title="Permanent link">&para;</a></h2>
+<p>Before deep learning, astronomers used traditional ML with hand-crafted features.</p>
+<h3 id="31-feature-engineering">3.1 Feature Engineering<a class="headerlink" href="#31-feature-engineering" title="Permanent link">&para;</a></h3>
+<p>The astronomer extracts meaningful features from the light curve:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>What It Measures</th>
+<th>Formula/Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Period</td>
+<td>Orbital period</td>
+<td>BLS periodogram peak</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>Planet size</td>
+<td>Max(dip) in phase-folded curve</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>Transit length</td>
+<td>Width of BLS box</td>
+</tr>
+<tr>
+<td>SNR</td>
+<td>Signal confidence</td>
+<td>depth / (noise / sqrt(N))</td>
+</tr>
+<tr>
+<td>Odd-even ratio</td>
+<td>EB check</td>
+<td>depth_odd / depth_even</td>
+</tr>
+<tr>
+<td>Secondary depth</td>
+<td>EB check</td>
+<td>Depth of signal at phase 0.5</td>
+</tr>
+<tr>
+<td>Shape metric</td>
+<td>U vs V</td>
+<td>Kurtosis of transit dip</td>
+</tr>
+<tr>
+<td>Ingress slope</td>
+<td>Transit type</td>
+<td>d(flux)/d(time) at contact 1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-random-forest">3.2 Random Forest<a class="headerlink" href="#32-random-forest" title="Permanent link">&para;</a></h3>
+<p>An ensemble of decision trees, each trained on random subsets of features and data.</p>
+<div class="highlight"><pre><span></span><code>Tree 1:                    Tree 2:                    Tree 3:
+  depth &gt; 500ppm?          SNR &gt; 10?                  odd_even &lt; 1.05?
+  ├── Yes: duration&gt;1h?    ├── Yes: secondary&lt;50?     ├── Yes: PLANET
+  │   ├── Yes: PLANET      │   ├── Yes: PLANET        └── No: EB
+  │   └── No: FP           │   └── No: EB
+  └── No: FP               └── No: FP
+
+Final: MAJORITY VOTE → PLANET (2/3 agree)
+</code></pre></div>
+<p><strong>Pros</strong>: Interpretable (we can see which features matter), robust to noise, fast to train.<br />
+<strong>Cons</strong>: Limited by the quality of hand-crafted features. Can't learn new patterns.</p>
+<h3 id="33-xgboost-gradient-boosted-trees">3.3 XGBoost / Gradient Boosted Trees<a class="headerlink" href="#33-xgboost-gradient-boosted-trees" title="Permanent link">&para;</a></h3>
+<p>Similar to Random Forest but trees are built sequentially, each correcting the errors of the previous one. Often achieves better accuracy.</p>
+<h3 id="34-why-classical-ml-falls-short">3.4 Why Classical ML Falls Short<a class="headerlink" href="#34-why-classical-ml-falls-short" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Features are designed by humans -- we might miss important patterns</li>
+<li>Features don't capture the full shape/temporal information</li>
+<li>Different stars have different noise properties -- hand-crafted features may not generalize</li>
+<li><strong>Deep learning can learn features directly from raw data</strong></li>
+</ul>
+<hr />
+<h2 id="4-convolutional-neural-networks-cnns">4. Convolutional Neural Networks (CNNs)<a class="headerlink" href="#4-convolutional-neural-networks-cnns" title="Permanent link">&para;</a></h2>
+<p>CNNs are the <strong>workhorse</strong> of deep learning for transit classification. They learn to recognize spatial patterns in 1D light curves, just like they recognize edges and shapes in 2D images.</p>
+<h3 id="41-how-1d-cnns-work">4.1 How 1D CNNs Work<a class="headerlink" href="#41-how-1d-cnns-work" title="Permanent link">&para;</a></h3>
+<p>A 1D convolution slides a small filter across the light curve, detecting local patterns:</p>
+<div class="highlight"><pre><span></span><code>Input light curve:   [1.0, 1.0, 0.99, 0.98, 0.98, 0.99, 1.0, 1.0]
+
+Filter (kernel):     [+1, -2, +1]  (edge detector)
+
+Convolution:
+  Position 1: 1.0*(+1) + 1.0*(-2) + 0.99*(+1) = -0.01
+  Position 2: 1.0*(+1) + 0.99*(-2) + 0.98*(+1) = 0.00
+  Position 3: 0.99*(+1) + 0.98*(-2) + 0.98*(+1) = +0.01
+  ...
+
+Output: [     -0.01,      0.00,      0.01,     0.00,     0.01,     0.00   ]
+         ↑ ingress detected                    ↑ flat bottom    ↑ egress
+</code></pre></div>
+<h3 id="42-cnn-architecture-for-transits">4.2 CNN Architecture for Transits<a class="headerlink" href="#42-cnn-architecture-for-transits" title="Permanent link">&para;</a></h3>
+<p>A typical transit classification CNN:</p>
+<div class="highlight"><pre><span></span><code>Input: Phase-folded light curve (1 x 200 points)
+  │
+  ▼
+┌─────────────────────────────────┐
+│ Conv1D(1→32, kernel=7)          │  Detects coarse features
+│ BatchNorm + ReLU + MaxPool(2)   │  (200 → 100)
+├─────────────────────────────────┤
+│ Conv1D(32→64, kernel=5)         │  Detects medium features
+│ BatchNorm + ReLU + MaxPool(2)   │  (100 → 50)
+├─────────────────────────────────┤
+│ Conv1D(64→64, kernel=3)         │  Detects fine features (transit shape)
+│ BatchNorm + ReLU + AvgPool(→1)  │  (50 → 1)
+├─────────────────────────────────┤
+│ Fully Connected (64→64)         │  Feature vector
+│ ReLU                            │
+├─────────────────────────────────┤
+│ Fully Connected (64→1)          │  Planet probability
+│ Sigmoid                         │  (0.0 to 1.0)
+└─────────────────────────────────┘
+</code></pre></div>
+<p>This is essentially used for finding shapes.</p>
+<h3 id="43-what-cnns-learn">4.3 What CNNs Learn<a class="headerlink" href="#43-what-cnns-learn" title="Permanent link">&para;</a></h3>
+<p>Layer by layer, the CNN learns increasingly abstract features:</p>
+<div class="highlight"><pre><span></span><code>Layer 1 (Conv 7): Edge detection
+  - Finds ingress/egress slopes
+  - Detects sharp vs gradual transitions
+
+Layer 2 (Conv 5): Shape patterns
+  - Recognizes U-shape vs V-shape
+  - Detects flat bottoms vs pointed bottoms
+
+Layer 3 (Conv 3): High-level features
+  - Combines edges and shapes into &quot;planet transit&quot; vs &quot;EB eclipse&quot; patterns
+  - Detects symmetry of the transit
+</code></pre></div>
+<h3 id="44-key-concepts">4.4 Key Concepts<a class="headerlink" href="#44-key-concepts" title="Permanent link">&para;</a></h3>
+<p><strong>BatchNorm</strong>: Normalizes the output of each layer to have mean=0, std=1. This stabilizes training and allows higher learning rates.</p>
+<p><strong>ReLU (Rectified Linear Unit)</strong>: Activation function that outputs max(0, x). Introduces non-linearity (without it, the entire network would be a linear function).</p>
+<p><strong>MaxPool</strong>: Downsamples by taking the maximum value in each window. Reduces dimensionality and makes the model somewhat invariant to small shifts.</p>
+<p><strong>AdaptiveAvgPool</strong>: Reduces the output to a fixed size regardless of input size.</p>
+<h3 id="45-notable-cnn-models">4.5 Notable CNN Models<a class="headerlink" href="#45-notable-cnn-models" title="Permanent link">&para;</a></h3>
+<p><strong>AstroNet</strong> (Shallue &amp; Vanderburg, 2018):
+- First major deep learning paper for transit classification
+- Applied to Kepler data
+- Validated 2 new planets (Kepler-90i and Kepler-80g)
+- Architecture: Two separate CNNs (global + local view) merged with dense layers</p>
+<p><strong>ExoMiner</strong> (Valizadegan et al., 2021):
+- NASA's official ML-based vetter
+- Validated 301 new planets from Kepler
+- Multi-input CNN (uses diagnostic tests as additional inputs)</p>
+<p><strong>ExoMiner++</strong> (2024-2025):
+- Transfer learning from Kepler to TESS
+- First large-scale ML vetting catalog for TESS 2-minute cadence data</p>
+<hr />
+<h2 id="5-recurrent-neural-networks-rnnslstms">5. Recurrent Neural Networks (RNNs/LSTMs)<a class="headerlink" href="#5-recurrent-neural-networks-rnnslstms" title="Permanent link">&para;</a></h2>
+<p>While CNNs detect spatial patterns, RNNs are designed for <strong>sequential/temporal</strong> data -- they process the light curve one point at a time and maintain a "memory" of what they've seen.</p>
+<h3 id="51-basic-rnn">5.1 Basic RNN<a class="headerlink" href="#51-basic-rnn" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Time step:    t=1      t=2      t=3      t=4      ...
+Input:        x_1      x_2      x_3      x_4
+               ↓        ↓        ↓        ↓
+Hidden:       h_1  →   h_2  →   h_3  →   h_4  →  ...
+               ↑        ↑        ↑        ↑
+              (memory passes from step to step)
+</code></pre></div>
+<p>At each time step, the hidden state is updated:
+<div class="highlight"><pre><span></span><code>h_t = f(W_h * h_{t-1} + W_x * x_t + b)
+</code></pre></div></p>
+<p><strong>Problem</strong>: Vanilla RNNs suffer from the <strong>vanishing gradient problem</strong> -- they can't remember things from many time steps ago. For a light curve with 1000 points, early transits would be "forgotten."</p>
+<h3 id="52-lstm-long-short-term-memory">5.2 LSTM (Long Short-Term Memory)<a class="headerlink" href="#52-lstm-long-short-term-memory" title="Permanent link">&para;</a></h3>
+<p>LSTMs solve the vanishing gradient problem with a <strong>gating mechanism</strong>:</p>
+<div class="highlight"><pre><span></span><code>                  ┌──────────────────────────┐
+                  │         LSTM Cell          │
+                  │                            │
+  x_t ──────────►│  forget gate: What to     │
+                  │    forget from memory      │
+  h_{t-1} ──────►│                            │──► h_t
+                  │  input gate: What new     │
+  c_{t-1} ──────►│    info to store           │──► c_t
+                  │                            │
+                  │  output gate: What to     │
+                  │    output                  │
+                  └──────────────────────────┘
+</code></pre></div>
+<p>Three gates control information flow:
+- <strong>Forget gate</strong>: Decides what to throw away from the cell state
+- <strong>Input gate</strong>: Decides what new information to store
+- <strong>Output gate</strong>: Decides what to output based on the cell state</p>
+<h3 id="53-bidirectional-lstm">5.3 Bidirectional LSTM<a class="headerlink" href="#53-bidirectional-lstm" title="Permanent link">&para;</a></h3>
+<p>It processes the sequence in BOTH directions:</p>
+<div class="highlight"><pre><span></span><code>Forward LSTM:   → → → → → → → → → → →
+                x_1  x_2  x_3  ...  x_1000
+
+Backward LSTM:  ← ← ← ← ← ← ← ← ← ← ←
+                x_1  x_2  x_3  ...  x_1000
+
+Output at each step: [forward_h_t ; backward_h_t]
+</code></pre></div>
+<p><strong>Why bidirectional?</strong> Transits can be better understood by looking at what comes before AND after. The forward LSTM sees the approach to the transit; the backward LSTM sees the recovery.</p>
+<h3 id="54-attention-mechanism">5.4 Attention Mechanism<a class="headerlink" href="#54-attention-mechanism" title="Permanent link">&para;</a></h3>
+<p><strong>Temporal attention</strong> on top of the LSTM:</p>
+<div class="highlight"><pre><span></span><code>LSTM outputs: h_1, h_2, h_3, ..., h_1000
+                ↓    ↓    ↓         ↓
+Attention:    α_1, α_2, α_3, ..., α_1000   (weights, sum to 1)
+                ↓    ↓    ↓         ↓
+Output:       Σ (α_i * h_i)  =  single attended vector
+</code></pre></div>
+<p>The attention mechanism learns which time steps are most important. For transit detection, it should learn to attend to the transit regions and ignore the flat out-of-transit data.</p>
+<h3 id="55-why-lstm-for-light-curves">5.5 Why LSTM for Light Curves?<a class="headerlink" href="#55-why-lstm-for-light-curves" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Light curves are <strong>time series</strong> -- order matters</li>
+<li>LSTMs can detect <strong>periodicity</strong> (repeated transits at regular intervals)</li>
+<li>LSTMs can detect <strong>Transit Timing Variations (TTVs)</strong> -- slight changes in transit timing caused by gravitational interactions between planets</li>
+<li>LSTMs can detect <strong>secondary eclipses</strong> at phase 0.5</li>
+<li>Combined with attention, they can focus on the most informative parts of the curve</li>
+</ul>
+<hr />
+<h2 id="6-transformers">6. Transformers<a class="headerlink" href="#6-transformers" title="Permanent link">&para;</a></h2>
+<p>Transformers are the newest architecture being applied to transit classification. They use <strong>self-attention</strong> to model relationships between ALL pairs of time steps simultaneously.</p>
+<h3 id="61-self-attention">6.1 Self-Attention<a class="headerlink" href="#61-self-attention" title="Permanent link">&para;</a></h3>
+<p>Instead of processing sequentially (like RNNs), transformers compare every point to every other point:</p>
+<div class="highlight"><pre><span></span><code>For each point x_i:
+  1. Compute Query (Q_i), Key (K_i), Value (V_i)
+  2. Compare Q_i with ALL keys: score_ij = Q_i . K_j
+  3. Softmax the scores to get attention weights
+  4. Output_i = Σ (weight_ij * V_j)
+
+Result: Each point&#39;s output is a weighted combination of ALL other points
+</code></pre></div>
+<h3 id="62-why-transformers-for-transits">6.2 Why Transformers for Transits?<a class="headerlink" href="#62-why-transformers-for-transits" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Long-range dependencies</strong>: Can relate the transit at one phase to the out-of-transit behavior at another phase</li>
+<li><strong>Parallelizable</strong>: Unlike RNNs, all time steps are processed simultaneously (faster training on GPUs)</li>
+<li><strong>No sequence length limit</strong>: RNNs struggle with very long sequences; transformers handle them natively</li>
+<li><strong>Position encoding</strong>: Transformers add positional information, which maps naturally to orbital phase</li>
+</ul>
+<h3 id="63-current-state">6.3 Current State<a class="headerlink" href="#63-current-state" title="Permanent link">&para;</a></h3>
+<p>Transformers for transit classification are still relatively new:
+- <strong>Salinas et al. (2023, 2025)</strong>: Applied to TESS FFIs, showed competitive performance with CNNs
+- <strong>Research opportunity</strong>: Transformers are underexplored in this domain compared to NLP/vision</p>
+<h3 id="64-transformer-vs-cnn-vs-lstm">6.4 Transformer vs CNN vs LSTM<a class="headerlink" href="#64-transformer-vs-cnn-vs-lstm" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>CNN</th>
+<th>LSTM</th>
+<th>Transformer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local patterns</td>
+<td>Excellent</td>
+<td>Good</td>
+<td>Good</td>
+</tr>
+<tr>
+<td>Long-range patterns</td>
+<td>Poor (limited by receptive field)</td>
+<td>Good (but sequential)</td>
+<td>Excellent</td>
+</tr>
+<tr>
+<td>Training speed</td>
+<td>Fast</td>
+<td>Slow (sequential)</td>
+<td>Fast (parallel)</td>
+</tr>
+<tr>
+<td>Data efficiency</td>
+<td>Good (inductive bias)</td>
+<td>Moderate</td>
+<td>Poor (needs lots of data)</td>
+</tr>
+<tr>
+<td>Interpretability</td>
+<td>Moderate (filters)</td>
+<td>Low</td>
+<td>Moderate (attention maps)</td>
+</tr>
+<tr>
+<td>Current use in exo</td>
+<td>Dominant</td>
+<td>Growing</td>
+<td>Emerging</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-the-class-imbalance-problem">7. The Class Imbalance Problem<a class="headerlink" href="#7-the-class-imbalance-problem" title="Permanent link">&para;</a></h2>
+<p>This is the <strong>single biggest challenge</strong> in ML for exoplanets.</p>
+<h3 id="the-reality">The Reality<a class="headerlink" href="#the-reality" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>In a typical TESS sector:
+- Stars observed:     ~200,000
+- Stars with TCEs:    ~2,000   (1%)
+- Real planets:       ~20      (0.01%)
+- False positives:    ~1,980   (0.99%)
+
+Even among TCEs:
+- Planets:            ~1%
+- Eclipsing binaries: ~40%
+- BG eclipsing binary: ~20%
+- Stellar variability: ~20%
+- Instrumental:       ~19%
+</code></pre></div>
+<h3 id="why-its-a-problem">Why It's a Problem<a class="headerlink" href="#why-its-a-problem" title="Permanent link">&para;</a></h3>
+<p>If you train a model that ALWAYS predicts "not a planet," it gets 99% accuracy! But it finds zero planets -- completely useless.</p>
+<div class="highlight"><pre><span></span><code>Naive model: &quot;Everything is NOT a planet&quot;
+- Accuracy: 99%
+- Recall (planets found): 0%  ← USELESS
+</code></pre></div>
+<h3 id="possible-solutions">Possible Solutions<a class="headerlink" href="#possible-solutions" title="Permanent link">&para;</a></h3>
+<p><strong>1. Weighted Loss Function (Focal Loss)</strong></p>
+<p><strong>Focal Loss</strong>, down-weights easy examples (correctly classified non-planets) and up-weights hard examples (misclassified planets).</p>
+<p><strong>2. Weighted Random Sampling</strong></p>
+<p>Ensures each training batch has a balanced number of planets and non-planets, even though the dataset is imbalanced.</p>
+<p><strong>3. Synthetic Data Augmentation</strong></p>
+<p>Can generate fake planet transits injected into real TESS noise backgrounds. This increases the number of positive examples.</p>
+<p><strong>4. Threshold Tuning</strong></p>
+<p>Instead of using 0.5 as the classification threshold, we can optimize it for the desired precision-recall tradeoff.</p>
+<hr />
+<h2 id="8-training-data-sources">8. Training Data Sources<a class="headerlink" href="#8-training-data-sources" title="Permanent link">&para;</a></h2>
+<h3 id="81-kepler-labelled-time-series">8.1 Kepler Labelled Time Series<a class="headerlink" href="#81-kepler-labelled-time-series" title="Permanent link">&para;</a></h3>
+<p>Kaggle CSV file containing Kepler light curves with confirmed labels:
+- <strong>Label 2</strong>: Confirmed planet (positive class)
+- <strong>Label 1</strong>: Non-planet (negative class)</p>
+<p>This is the most widely used training dataset in the field.</p>
+<h3 id="82-synthetic-injection">8.2 Synthetic Injection<a class="headerlink" href="#82-synthetic-injection" title="Permanent link">&para;</a></h3>
+<p>Can create additional training examples:</p>
+<p>This is important because:
+- Increases positive examples (helps with class imbalance)
+- We control the planet parameters (can generate hard-to-detect cases)
+- Uses real TESS noise (realistic instrumental/stellar noise patterns)</p>
+<h3 id="83-example-data-preprocessing-for-training">8.3 Example Data Preprocessing for Training<a class="headerlink" href="#83-example-data-preprocessing-for-training" title="Permanent link">&para;</a></h3>
+<p>Before feeding data to the model:</p>
+<div class="highlight"><pre><span></span><code>Raw light curve
+     │
+     ▼
+1. Normalize
+     │
+     ▼
+2. Phase fold at known/detected period
+     │
+     ▼
+3. Generate dual views:
+   - Local: 200 points around transit (CNN)
+   - Global: 1000 points full orbit (LSTM)
+     │
+     ▼
+4. Compute physics vector:
+   - [Period, Duration, Depth, SNR, StarRadius]
+   - Normalize: Period/12, Duration*24/5, Depth*50, SNR/30
+     │
+     ▼
+5. Data augmentation:
+   - Random jitter (translational invariance)
+   - Gaussian noise injection
+   - Noisy physics vector (prevent data leakage)
+</code></pre></div>
+<hr />
+<h2 id="9-evaluation-metrics">9. Evaluation Metrics<a class="headerlink" href="#9-evaluation-metrics" title="Permanent link">&para;</a></h2>
+<p>Accuracy alone is meaningless for imbalanced data. Here's what actually matters:</p>
+<h3 id="confusion-matrix">Confusion Matrix<a class="headerlink" href="#confusion-matrix" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>                    Predicted
+                 Planet | Not Planet
+Actual Planet  |  TP   |    FN     |
+Not Planet     |  FP   |    TN     |
+
+TP = True Positive  (real planet, correctly identified)
+FP = False Positive (not a planet, incorrectly flagged)
+FN = False Negative (real planet, missed!)
+TN = True Negative  (not a planet, correctly rejected)
+</code></pre></div>
+<h3 id="key-metrics">Key Metrics<a class="headerlink" href="#key-metrics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>What It Means</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Precision</strong></td>
+<td>TP / (TP + FP)</td>
+<td>Of all flagged candidates, how many are real?</td>
+<td>&gt;80%</td>
+</tr>
+<tr>
+<td><strong>Recall</strong></td>
+<td>TP / (TP + FN)</td>
+<td>Of all real planets, how many did we find?</td>
+<td>&gt;95%</td>
+</tr>
+<tr>
+<td><strong>F1 Score</strong></td>
+<td>2 * (Precision * Recall) / (P + R)</td>
+<td>Harmonic mean of precision and recall</td>
+<td>&gt;85%</td>
+</tr>
+<tr>
+<td><strong>AUC-ROC</strong></td>
+<td>Area under ROC curve</td>
+<td>Overall discrimination ability</td>
+<td>&gt;0.95</td>
+</tr>
+<tr>
+<td><strong>False Positive Rate</strong></td>
+<td>FP / (FP + TN)</td>
+<td>What fraction of non-planets are flagged?</td>
+<td>&lt;5%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-recall-matters-most">Why Recall Matters Most<a class="headerlink" href="#why-recall-matters-most" title="Permanent link">&para;</a></h3>
+<p>In astronomy, <strong>missing a real planet is worse than flagging a false positive</strong>. A false positive just wastes some follow-up time. A missed planet is a lost discovery.</p>
+<h3 id="roc-curve">ROC Curve<a class="headerlink" href="#roc-curve" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>True Positive Rate (Recall)
+1.0 ─────────────────────────── * (perfect)
+    │                        *
+    │                     *
+    │                  *
+    │               *
+    │            *
+0.5 │         *
+    │      *
+    │   * ← Random classifier (diagonal)
+    │ *
+0.0 *──────────────────────────
+    0.0        0.5        1.0
+          False Positive Rate
+</code></pre></div>
+<hr />
+<h2 id="10-loss-functions">10. Loss Functions<a class="headerlink" href="#10-loss-functions" title="Permanent link">&para;</a></h2>
+<h3 id="binary-cross-entropy-bce">Binary Cross-Entropy (BCE)<a class="headerlink" href="#binary-cross-entropy-bce" title="Permanent link">&para;</a></h3>
+<p>The standard loss for binary classification:</p>
+<div class="highlight"><pre><span></span><code>BCE = -[y * log(p) + (1-y) * log(1-p)]
+
+Where:
+  y = true label (0 or 1)
+  p = predicted probability
+</code></pre></div>
+<p><strong>Problem</strong>: Treats all examples equally. With 99% negatives, the model just learns to predict "not planet."</p>
+<h3 id="bce-with-logits">BCE with Logits<a class="headerlink" href="#bce-with-logits" title="Permanent link">&para;</a></h3>
+<p>This is numerically more stable than applying sigmoid then BCE separately:</p>
+<div class="highlight"><pre><span></span><code>BCEWithLogits = -[y * log(sigmoid(z)) + (1-y) * log(1 - sigmoid(z))]
+
+Where z = raw model output (logit), before sigmoid
+</code></pre></div>
+<h3 id="focal-loss">Focal Loss<a class="headerlink" href="#focal-loss" title="Permanent link">&para;</a></h3>
+<p>Adds a modulating factor to down-weight easy examples:</p>
+<h2 id="focalloss-alpha-1-pgamma-logp-when-y1-1-alpha-pgamma-log1-p-when-y0"><div class="highlight"><pre><span></span><code>FocalLoss = -alpha * (1-p)^gamma * log(p)       when y=1
+          = -(1-alpha) * p^gamma * log(1-p)      when y=0
+</code></pre></div><a class="headerlink" href="#focalloss-alpha-1-pgamma-logp-when-y1-1-alpha-pgamma-log1-p-when-y0" title="Permanent link">&para;</a></h2>
+<h2 id="11-data-augmentation-for-light-curves">11. Data Augmentation for Light Curves<a class="headerlink" href="#11-data-augmentation-for-light-curves" title="Permanent link">&para;</a></h2>
+<p>Unlike image augmentation (rotation, flipping), light curve augmentation must respect physics:</p>
+<h3 id="valid-augmentations">Valid Augmentations<a class="headerlink" href="#valid-augmentations" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Augmentation</th>
+<th>What It Does</th>
+<th>Why It Helps</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Random phase jitter</strong></td>
+<td>Shift the transit slightly in phase</td>
+<td>Translational invariance -- model shouldn't depend on exact transit position</td>
+</tr>
+<tr>
+<td><strong>Gaussian noise injection</strong></td>
+<td>Add random noise to flux values</td>
+<td>Robustness to different noise levels</td>
+</tr>
+<tr>
+<td><strong>Transit depth scaling</strong></td>
+<td>Slightly vary the transit depth</td>
+<td>Generalize to different planet sizes</td>
+</tr>
+<tr>
+<td><strong>Baseline variation</strong></td>
+<td>Add slow sinusoidal trends</td>
+<td>Robustness to stellar variability</td>
+</tr>
+<tr>
+<td><strong>Noisy physics injection</strong></td>
+<td>Add noise to physics vector values</td>
+<td>Prevents the model from "leaking" answers from physics features</td>
+</tr>
+</tbody>
+</table>
+<h3 id="invalid-augmentations-dont-do-these">Invalid Augmentations (Don't Do These!)<a class="headerlink" href="#invalid-augmentations-dont-do-these" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Bad Augmentation</th>
+<th>Why It's Wrong</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flip the light curve vertically</td>
+<td>Transits are always dips, never bumps</td>
+</tr>
+<tr>
+<td>Random time shuffling</td>
+<td>Destroys the temporal structure</td>
+</tr>
+<tr>
+<td>Extreme stretching</td>
+<td>Changes the physical transit shape</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-model-deployment-onnx">12. Model Deployment (ONNX)<a class="headerlink" href="#12-model-deployment-onnx" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-onnx">What is ONNX?<a class="headerlink" href="#what-is-onnx" title="Permanent link">&para;</a></h3>
+<p><strong>ONNX</strong> (Open Neural Network Exchange) is a standardized format for ML models. You train in PyTorch, export to ONNX, and run inference anywhere (without needing PyTorch installed).</p>
+<div class="highlight"><pre><span></span><code>Training (PyTorch)          Deployment (ONNX Runtime)
+┌──────────────────┐        ┌──────────────────────┐
+│ model.py          │        │ inference.py           │
+│ train.py          │ ──►    │ onnxruntime            │
+│ GPU, big deps     │ .onnx  │ CPU only, lightweight  │
+│ Research          │  file  │ Production             │
+└──────────────────┘        └──────────────────────┘
+</code></pre></div>
+<h3 id="why-onnx">Why ONNX?<a class="headerlink" href="#why-onnx" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Lightweight</strong>: ONNX Runtime is much smaller than PyTorch (~50MB vs ~2GB)</li>
+<li><strong>No GPU needed</strong>: Runs on CPU (important for free-tier hosting)</li>
+<li><strong>Deterministic</strong>: Same output every time (no training-mode randomness)</li>
+<li><strong>Language agnostic</strong>: Could run in C++, C#, Java, not just Python</li>
+</ol>
+<hr />
+<h2 id="13-putting-it-all-together">13. Putting It All Together<a class="headerlink" href="#13-putting-it-all-together" title="Permanent link">&para;</a></h2>
+<p>Here's the complete ML pipeline of an example system:</p>
+<div class="highlight"><pre><span></span><code>┌─────────────────────────────────────────────────────────────┐
+│                     TRAINING PHASE                           │
+│                                                              │
+│  Kepler CSV + Synthetic Injections                          │
+│       │                                                      │
+│       ▼                                                      │
+│  Preprocessing: Normalize → Phase Fold → Dual Views         │
+│       │                                                      │
+│       ▼                                                      │
+│  Augmentation: Jitter + Noise + Physics noise               │
+│       │                                                      │
+│       ▼                                                      │
+│  Training: (PyTorch)                                        │
+│    - Focal Loss (gamma=2, alpha=0.75)                       │
+│    - AdamW optimizer                                         │
+│    - CosineAnnealing LR scheduler                           │
+│    - WeightedRandomSampler for balance                      │
+│    - 50 epochs, batch size 32                               │
+│       │                                                      │
+│       ▼                                                      │
+│  Export to ONNX                                              │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    INFERENCE PHASE                            │
+│                                                              │
+│  New TESS light curve                                        │
+│       │                                                      │
+│       ▼                                                      │
+│  BLS → Period, Depth, Duration, SNR, Dual Views             │
+│       │                                                      │
+│       ▼                                                      │
+│  Preprocessing:                                              │
+│    Local view: 200 pts → (1, 1, 200) tensor                │
+│    Global view: 1000 pts → (1, 1000) tensor                 │
+│    Physics: [P, Dur, Dep, SNR, R] → normalize → (1, 5)     │
+│       │                                                      │
+│       ▼                                                      │
+│  ONNX Runtime:                                               │
+│    ┌─────────┐ ┌──────────┐ ┌───────────┐                  │
+│    │          │           │ │           │                  │
+│    │  (CNN)  │ │ (BiLSTM) │ │  (Dense)  │                  │
+│    └────┬────┘ └────┬─────┘ └─────┬─────┘                  │
+│         └───────────┼─────────────┘                          │
+│                     ▼                                        │
+│              ┌──────────┐                                    │
+│              │  Fusion   │                                   │
+│              │   Head    │                                   │
+│              └─────┬────┘                                    │
+│                    ▼                                         │
+│         confidence: 0.95                                     │
+│         shape_score: 0.98                                    │
+│         temporal_score: 0.89                                 │
+│                    │                                         │
+│                    ▼                                         │
+│         Verdict: POSITIVE / NEGATIVE / REVIEW               │
+└─────────────────────────────────────────────────────────────┘
+</code></pre></div>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>CNNs</strong> detect local transit shapes (U vs V)</li>
+<li><strong>Bi-LSTMs with attention</strong> capture temporal patterns</li>
+<li><strong>Physics injection</strong> adds domain knowledge</li>
+<li><strong>Class imbalance</strong> is the #1 challenge -- can be possibly solved via focal loss, weighted sampling, synthetic data</li>
+<li><strong>ONNX</strong> enables lightweight deployment without PyTorch</li>
+<li><strong>Evaluation</strong>: Recall matters more than accuracy. Missing a real planet is worse than flagging a false positive.</li>
+</ol>
+<hr />
+<h2 id="whats-next">What's Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h2>
+<p><strong>Part 5: Research Landscape</strong> -- What papers have been published, what's the state of the art, and where are the gaps?</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "toc.follow", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://arshcypherz.github.io/learning/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/01-astronomy-basics/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/02-transit-method/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/03-tess-and-missions/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/04-ml-for-exoplanets/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/05-research-landscape/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/06-research-directions/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+    <url>
+         <loc>https://arshcypherz.github.io/learning/07-paper-writing-guide/</loc>
+         <lastmod>2026-03-05</lastmod>
+    </url>
+</urlset>
