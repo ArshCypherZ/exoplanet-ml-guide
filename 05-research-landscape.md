@@ -1,4 +1,4 @@
-# Part 6: Research Landscape -- What's Been Done and Where Are the Gaps
+# Part 5: Research Landscape -- What's Been Done and Where Are the Gaps
 
 > **Prerequisites**: [Parts 1-4](01-astronomy-basics.md).  
 > **What you'll learn**: Key published papers, the current state of the art, what has NOT been done yet.
