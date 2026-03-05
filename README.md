@@ -18,4 +18,4 @@ Parts are sequential. No prior astronomy or ML knowledge required.
 
 ## License
 
-[MIT](../LICENSE)
+[MIT](LICENSE)
